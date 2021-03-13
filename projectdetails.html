@@ -12,6 +12,13 @@
         </ul>
 
         <h2>Relational Schema</h2>
+        <ul>
+            <li>Teacher(email, name, grade, teacherID), key=teacherID</li>
+            <li>Classroom(roomID, roomNumber, teacherID), key=roomID</li>
+            <li>Student(studentID, name, grade, address, teacherID, activityID, takesBus, busID), key=studentID</li>
+            <li>Activity(activityID, name, day), key=activityID</li>
+            <li>Transportation(busID, busType, busRoute), key=busID</li>
+        </ul>
         <h2>Databases and Softwares</h2>
         <ul>
             <li>React native (JS frontend)</li>
