@@ -25,7 +25,7 @@ SECRET_KEY = 'demo-nkfda1f0z_ceabi=$bkgi_9#)qopt@0!p)*g_4r4wic00'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*', 'db.cse.nd.edu', '127.0.0.1']
 
 
 # Application definition
