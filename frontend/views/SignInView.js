@@ -1,16 +1,24 @@
 import React, { useState } from 'react';
 import { Text, View, TextInput, Button, StyleSheet } from 'react-native'
+import { Auth0Provider } from "@auth0/auth0-react"
 
 const SignInView = ({ navigation }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    
+    const domain = process.env.REACT_APP_AUTH0_DOMAIN;
+    const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
 
     const handleSignIn = () => {
         // Networking here, determine what type of user they are and take them to the correct screen
-        navigation.navigate('AdminRosterView');
+	<Auth0Provider
+	    domain={domain}
+	    clientId={clientId}>
+	    navigation.navigate('AdminRosterView');
+	</Auth0Provider>
     }
     return (
-        <View style={styles.container}>
+	<View style={styles.container}>
             <TextInput
                 style={{height: 40}}
                 placeholder="Email"
@@ -26,7 +34,7 @@ const SignInView = ({ navigation }) => {
             <Button
                 title="Sign in"
                 onPress={handleSignIn}
-            />
+	    />
         </View>
     );
 }
