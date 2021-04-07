@@ -3,19 +3,25 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 
-from .models import Student
+from .models import Student, Advisor, Parent
 from .serializers import *
+
 
 @api_view(['GET', 'POST'])
 def students_list(request):
     if request.method == 'GET':
-        data = Student.objects.all()
+        ''' This is for getting all students and all advisors '''
+        student_data = Student.objects.all()
+        advisor_data = Advisor.objects.all()
 
-        serializer = StudentSerializer(data, context={'request': request}, many=True)
-
-        return Response(serializer.data)
+        students_serializer = StudentSerializer(student_data, context={'request': request}, many=True)
+        advisors_serializer = AdvisorSerializer(advisor_data, context={'request': request}, many=True)
+        response = {'students': students_serializer.data, 'advisors': advisors_serializer.data}
+        return Response(response)
 
     elif request.method == 'POST':
+        ''' This creates a student'''
+        
         serializer = StudentSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -23,15 +29,19 @@ def students_list(request):
             
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['PUT', 'DELETE'])
+
+@api_view(['GET', 'PUT', 'DELETE'])
 def students_detail(request, pk):
     try:
         student = Student.objects.get(pk=pk)
     except Student.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
-    if request.method == 'PUT':
-        serializer = StudentSerializer(student, data=request.data,context={'request': request})
+    if request.method == 'GET':
+        serializer = StudentSerializer(student, context={'request': request})
+        return Response(serializer.data)
+    elif request.method == 'PUT':
+        serializer = StudentSerializer(student, data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
             return Response(status=status.HTTP_204_NO_CONTENT)
@@ -41,3 +51,26 @@ def students_detail(request, pk):
         student.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+
+@api_view(['GET'])
+def advisors_list(request, pk):
+    ''' this is to get all the students in an advisors classroom '''
+    try:
+        # check to make sure the user entered a valid advisor_id
+        advisor = Advisor.objects.get(pk=pk)
+    except Advisor.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+    if request.method == 'GET': # this statement is redundant rn but will probably add more to this endpoint in the future
+        data = Student.objects.filter(advisor_id=pk)
+        serializer = StudentSerializer(data, context={'request': request}, many=True)
+        return Response(serializer.data)
+
+
+@api_view(['GET'])
+def buses_list(request, route_num):
+    ''' this is to get all the students on a particular bus route 4/6 UPDATE: this couldn't be tested since bus routes weren't live '''
+    if request.method == 'GET': # this statement is redundant rn but will probably add more to this endpoint in the future
+        data = Student.objects.filter(route_no=route_num)
+        serializer = StudentSerializer(data, context={'request': request}, many=True)
+        return Response(serializer.data)

@@ -29,7 +29,7 @@ class Parent(models.Model):
 
 
 class Student(models.Model):
-    student_id = models.AutoField(primary_key=True, default=300000)
+    student_id = models.AutoField(primary_key=True)
     first_name = models.CharField(max_length=20, blank=True, null=True)
     last_name = models.CharField(max_length=20, blank=True, null=True)
     parent = models.ForeignKey(Parent, models.CASCADE, blank=True, null=True)
