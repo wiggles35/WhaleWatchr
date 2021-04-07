@@ -11,7 +11,7 @@ from .serializers import *
 def students_list(request):
     if request.method == 'GET':
         ''' This is for getting all students, parents, and advisors '''
-        student_data = Student.objects.all()
+        student_data = {student.student_id: student for student in Student.objects.all()}
         advisor_data = Advisor.objects.all()
         parent_data  = Parent.objects.all()
 
