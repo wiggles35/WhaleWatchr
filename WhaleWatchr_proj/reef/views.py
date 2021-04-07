@@ -10,13 +10,15 @@ from .serializers import *
 @api_view(['GET', 'POST'])
 def students_list(request):
     if request.method == 'GET':
-        ''' This is for getting all students and all advisors '''
+        ''' This is for getting all students, parents, and advisors '''
         student_data = Student.objects.all()
         advisor_data = Advisor.objects.all()
+        parent_data  = Parent.objects.all()
 
         students_serializer = StudentSerializer(student_data, context={'request': request}, many=True)
         advisors_serializer = AdvisorSerializer(advisor_data, context={'request': request}, many=True)
-        response = {'students': students_serializer.data, 'advisors': advisors_serializer.data}
+        parents_serializer  = AdvisorSerializer(parent_data, context={'request': request}, many=True)
+        response = {'students': students_serializer.data, 'parents': parents_serializer.data, 'advisors': advisors_serializer.data}
         return Response(response)
 
     elif request.method == 'POST':
