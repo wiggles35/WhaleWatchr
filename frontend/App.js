@@ -4,7 +4,6 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import Student from './components/Student'
 import SignInView from './views/SignInView'
 import AdminRosterView from './views/AdminRosterView'
 
