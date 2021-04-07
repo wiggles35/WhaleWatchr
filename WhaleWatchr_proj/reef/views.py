@@ -15,6 +15,8 @@ def students_list(request):
         advisor_data = Advisor.objects.all()
         parent_data  = Parent.objects.all()
 
+        # Cant figure out why Parent.objects.all() doesnt match the model
+
         students_serializer = StudentSerializer(student_data, context={'request': request}, many=True)
         advisors_serializer = AdvisorSerializer(advisor_data, context={'request': request}, many=True)
         parents_serializer  = AdvisorSerializer(parent_data, context={'request': request}, many=True)
