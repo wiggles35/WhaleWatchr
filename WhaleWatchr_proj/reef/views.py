@@ -19,7 +19,8 @@ def students_list(request):
         advisors_serializer = AdvisorSerializer(advisor_data, context={'request': request}, many=True)
         parents_serializer  = AdvisorSerializer(parent_data, context={'request': request}, many=True)
         response = {'students': {student['student_id']:student for student in students_serializer.data}, 
-                    #'parents': {parent['parent_id']:parent for parent in parents_serializer.data}, 
+                    #'parents': {parent['parent_id']:parent for parent in parents_serializer.data},
+                    'parents': parents_serializer.data, 
                     'advisors': {advisor['advisor_id']:advisor for advisor in advisors_serializer.data}}
         return Response(response)
 
