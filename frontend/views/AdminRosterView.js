@@ -6,7 +6,7 @@ const AdminRosterView = () => {
     return (
         <View style={{padding: 10}}>
             <Text style={{padding: 10, fontSize: 40}}>Admin Roster View</Text>
-            <Student/>
+            <Student name="John Doe"/>
         </View>
     );
 }
