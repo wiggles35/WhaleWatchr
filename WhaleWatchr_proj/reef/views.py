@@ -11,14 +11,16 @@ from .serializers import *
 def students_list(request):
     if request.method == 'GET':
         ''' This is for getting all students, parents, and advisors '''
-        student_data = {student.student_id: student for student in Student.objects.all()}
+        student_data = Student.objects.all()
         advisor_data = Advisor.objects.all()
         parent_data  = Parent.objects.all()
 
         students_serializer = StudentSerializer(student_data, context={'request': request}, many=True)
         advisors_serializer = AdvisorSerializer(advisor_data, context={'request': request}, many=True)
         parents_serializer  = AdvisorSerializer(parent_data, context={'request': request}, many=True)
-        response = {'students': students_serializer.data, 'parents': parents_serializer.data, 'advisors': advisors_serializer.data}
+        response = {'students': {student.student_id:student for student in students_serializer.data}, 
+                    'parents': parents_serializer.data, 
+                    'advisors': advisors_serializer.data}
         return Response(response)
 
     elif request.method == 'POST':
