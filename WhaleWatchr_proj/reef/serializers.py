@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Student, Advisor, Parent
+from .models import Student, Advisor, Parent, UpdateRequest
 
 class StudentSerializer(serializers.ModelSerializer):
 
@@ -17,4 +17,9 @@ class ParentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Parent
+        fields = '__all__'
+
+class UpdateRequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UpdateRequest
         fields = '__all__'
