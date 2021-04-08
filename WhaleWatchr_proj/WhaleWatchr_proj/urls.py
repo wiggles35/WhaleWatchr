@@ -26,4 +26,5 @@ urlpatterns = [
     re_path(r'^api/advisors/([0-9]+)$', views.advisors_detail),
     re_path(r'^api/buses/([0-9]+)$', views.buses_list),
     re_path(r'api/parents/$', views.parents_list),
+    re_path(r'api/updateRequest/$', views.updateRequest_list),
 ]

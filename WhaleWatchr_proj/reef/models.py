@@ -37,8 +37,8 @@ class Student(models.Model):
     advisor = models.ForeignKey(Advisor, models.CASCADE, blank=True, null=True)
     grade = models.CharField(max_length=3, blank=True, null=True)
     birthday = models.DateField(blank=True, null=True)
-    activity_curr = ListTextField(base_field=models.IntegerField(), size=5, blank=True, null=True)
-    activity_base =  ListTextField(base_field=models.IntegerField(), size=5, blank=True, null=True)
+    activity_curr = models.JSONField(default=list, blank=True, null=True)
+    activity_base = models.JSONField(default=list, blank=True, null=True)
     route_no = models.IntegerField(blank=True, null=True)
 
     class Meta:
@@ -46,6 +46,5 @@ class Student(models.Model):
 
 class UpdateRequest(models.Model):
     student_id = models.IntegerField(blank=False, null=False)
-    new_activity_id = models.IntegerField(blank=False, null=False)
-    activity_curr = ListTextField(base_field=models.IntegerField(), size=5, blank=True, null=True)
-    activity_base =  ListTextField(base_field=models.IntegerField(), size=5, blank=True, null=True)
+    activity_curr = models.JSONField(default=list, blank=True, null=True)
+    activity_base = models.JSONField(default=list, blank=True, null=True)

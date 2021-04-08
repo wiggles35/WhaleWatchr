@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 
-from .models import Student, Advisor, Parent
+from .models import Student, Advisor, Parent, UpdateRequest
 from .serializers import *
 
 
@@ -14,8 +14,6 @@ def students_list(request):
         student_data = Student.objects.all()
         advisor_data = Advisor.objects.all()
         parent_data  = Parent.objects.all()
-
-        # Cant figure out why Parent.objects.all() doesnt match the model
 
         students_serializer = StudentSerializer(student_data, context={'request': request}, many=True)
         advisors_serializer = AdvisorSerializer(advisor_data, context={'request': request}, many=True)
@@ -28,7 +26,6 @@ def students_list(request):
 
     elif request.method == 'POST':
         ''' This creates a student'''
-        
         serializer = StudentSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -47,6 +44,7 @@ def students_detail(request, pk):
     if request.method == 'GET':
         serializer = StudentSerializer(student, context={'request': request})
         return Response(serializer.data)
+
     elif request.method == 'PUT':
         serializer = StudentSerializer(student, data=request.data, context={'request': request})
         if serializer.is_valid():
@@ -99,9 +97,38 @@ def buses_list(request, route_num):
 
 @api_view(['POST'])
 def parents_list(request):
-    ''' this is to create a new parent '''
+    ''' This endpoint handles creating parents '''
     if request.method == 'POST':
         serializer = ParentSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['DELETE'])
+def parents_detail(request, pk):
+    ''' This endpoint allows for deleting parents '''
+    try:
+        parent = Parent.objects.get(pk=pk)
+    except Parent.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+    if request.method == 'DELETE':
+        parent.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['GET', 'POST'])
+def updateRequest_list(request):
+    ''' this is the endpoint for Creating and viewing activity requests '''
+    if request.method == 'GET':
+        data = UpdateRequest.objects.all()
+        serializer = UpdateRequestSerializer(data, context={'request': request}, many=True)
+        return Response(serializer.data)
+
+    elif request.method == 'POST':
+        serializer = UpdateRequestSerializer(data=request.data)
+        if serializer.is_valid() and Student.objects.get(pk=serializer.validated_data['student_id']):
+            serializer.save()
+            return Response(status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
