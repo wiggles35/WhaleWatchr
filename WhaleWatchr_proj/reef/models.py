@@ -1,8 +1,9 @@
 from django.db import models
+from django_mysql.models import ListTextField
 
 
 class Advisor(models.Model):
-    advisor_id = models.AutoField(primary_key=True, default=100000)
+    advisor_id = models.AutoField(primary_key=True)
     first_name = models.CharField(max_length=20, blank=True, null=True)
     last_name = models.CharField(max_length=20, blank=True, null=True)
     email = models.CharField(max_length=30, blank=True, null=True)
@@ -16,7 +17,7 @@ class Advisor(models.Model):
 
 
 class Parent(models.Model):
-    parent_id = models.AutoField(primary_key=True, default=200000)
+    parent_id = models.AutoField(primary_key=True)
     first_name = models.CharField(max_length=20, blank=True, null=True)
     last_name = models.CharField(max_length=20, blank=True, null=True)
     email = models.CharField(max_length=30, blank=True, null=True)
@@ -36,8 +37,15 @@ class Student(models.Model):
     advisor = models.ForeignKey(Advisor, models.CASCADE, blank=True, null=True)
     grade = models.CharField(max_length=3, blank=True, null=True)
     birthday = models.DateField(blank=True, null=True)
-    activity_id = models.IntegerField(blank=True, null=True)
+    activity_curr = ListTextField(base_field=models.IntegerField(), size=5, blank=True, null=True)
+    activity_base =  ListTextField(base_field=models.IntegerField(), size=5, blank=True, null=True)
     route_no = models.IntegerField(blank=True, null=True)
 
     class Meta:
         db_table = 'student'
+
+class UpdateRequest(models.Model):
+    student_id = models.IntegerField(blank=False, null=False)
+    new_activity_id = models.IntegerField(blank=False, null=False)
+    activity_curr = ListTextField(base_field=models.IntegerField(), size=5, blank=True, null=True)
+    activity_base =  ListTextField(base_field=models.IntegerField(), size=5, blank=True, null=True)

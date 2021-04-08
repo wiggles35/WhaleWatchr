@@ -19,11 +19,11 @@ def students_list(request):
 
         students_serializer = StudentSerializer(student_data, context={'request': request}, many=True)
         advisors_serializer = AdvisorSerializer(advisor_data, context={'request': request}, many=True)
-        parents_serializer  = AdvisorSerializer(parent_data, context={'request': request}, many=True)
+        parents_serializer  = ParentSerializer(parent_data, context={'request': request}, many=True)
         response = {'students': {student['student_id']:student for student in students_serializer.data}, 
-                    #'parents': {parent['parent_id']:parent for parent in parents_serializer.data},
-                    'parents': parents_serializer.data, 
-                    'advisors': {advisor['advisor_id']:advisor for advisor in advisors_serializer.data}}
+                    'parents': {parent['parent_id']:parent for parent in parents_serializer.data},
+                    'advisors': {advisor['advisor_id']:advisor for advisor in advisors_serializer.data}
+                   }
         return Response(response)
 
     elif request.method == 'POST':
@@ -58,9 +58,23 @@ def students_detail(request, pk):
         student.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+def advisors_list(request):
+    ''' This is to create a new advisor '''
+    if request.method == 'POST':
+        serializer = AdvisorSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(status=status.HTTP_201_CREATED)
+            
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 @api_view(['GET'])
-def advisors_list(request, pk):
+def advisors_detail(request, pk):
     ''' this is to get all the students in an advisors classroom '''
     try:
         # check to make sure the user entered a valid advisor_id
@@ -81,3 +95,13 @@ def buses_list(request, route_num):
         data = Student.objects.filter(route_no=route_num)
         serializer = StudentSerializer(data, context={'request': request}, many=True)
         return Response(serializer.data)
+
+
+@api_view(['POST'])
+def parents_list(request):
+    ''' this is to create a new parent '''
+    if request.method == 'POST':
+        serializer = ParentSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(status=status.HTTP_201_CREATED)
