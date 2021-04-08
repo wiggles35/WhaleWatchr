@@ -71,7 +71,7 @@ def advisors_list(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET'])
+@api_view(['GET', 'PUT'])
 def advisors_detail(request, pk):
     ''' this is to get all the students in an advisors classroom '''
     try:
@@ -80,10 +80,17 @@ def advisors_detail(request, pk):
     except Advisor.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     
-    if request.method == 'GET': # this statement is redundant rn but will probably add more to this endpoint in the future
+    if request.method == 'GET':
         data = Student.objects.filter(advisor_id=pk)
         serializer = StudentSerializer(data, context={'request': request}, many=True)
         return Response(serializer.data)
+
+    elif request.method == 'PUT':
+        serializer = AdvisorSerializer(advisor, data=request.data, context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)    
 
 
 @api_view(['GET'])
@@ -105,15 +112,22 @@ def parents_list(request):
             return Response(status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['DELETE'])
+@api_view(['PUT', 'DELETE'])
 def parents_detail(request, pk):
     ''' This endpoint allows for deleting parents '''
     try:
         parent = Parent.objects.get(pk=pk)
     except Parent.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
-    
-    if request.method == 'DELETE':
+
+    if request.method == 'PUT':
+        serializer = ParentSerializer(parent, data=request.data, context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST) 
+
+    elif request.method == 'DELETE':
         parent.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
