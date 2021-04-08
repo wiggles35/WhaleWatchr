@@ -5,12 +5,26 @@ import ActivityIcon from './ActivityIcon'
 const TableStudent = ({ studentName, advisorName, parentName, parentEmail, parentPhone }) => {
     return (
         <View style={styles.container}>
-            <Text style={styles.infoText}>{studentName}</Text>
-            <ActivityIcon actType='Bus' busNum='35' />
-            <Text style={styles.infoText}>{advisorName}</Text>
-            <Text style={styles.infoText}>{parentName}</Text>
-            <Text style={styles.infoText}>{parentEmail}</Text>
-            <Text style={styles.infoText}>{parentPhone}</Text>
+            <View style={styles.infoWrapper}>
+                <Text style={styles.infoText}>{studentName}</Text>
+            </View>
+            <View style={styles.infoWrapper}>
+                <View style={{width: "50%"}}>
+                    <ActivityIcon actType='Bus' busNum='35' />
+                </View>
+            </View>
+            <View style={styles.infoWrapper}>
+                <Text style={styles.infoText}>{advisorName}</Text>
+            </View>
+            <View style={styles.infoWrapper}>
+                <Text style={styles.infoText}>{parentName}</Text>
+            </View>
+            <View style={styles.infoWrapper}>
+                <Text style={styles.infoText}>{parentEmail}</Text>
+            </View>
+            <View style={styles.infoWrapper}>
+                <Text style={styles.infoText}>{parentPhone}</Text>
+            </View>
         </View>
     );
 }
@@ -25,13 +39,20 @@ const styles = StyleSheet.create({
         shadowOpacity: .4,
         shadowRadius: 4,
         flexDirection: 'row',
-        width: '100%',
+        marginTop: 7,
+        marginBottom: 7,
+        width: '99%',
+        alignItems: "center"
         //justifyContent: 'space-between'
     },
     infoText: {
         padding: 10, 
         fontSize: 15,
-        flex: 1
+    },
+    infoWrapper: {
+        flex:1, 
+        justifyContent: "center", 
+        alignItems: "center"
     }
 });
 

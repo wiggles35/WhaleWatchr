@@ -2,27 +2,34 @@ import React, { useState } from 'react';
 import { Text, View, TextInput, Button, StyleSheet } from 'react-native'
 import FormInput from '../components/FormInput'
 
-const SignInView = ({ navigation }) => {
+const CreateAccountView = ({ navigation }) => {
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
-    const handleSignIn = () => {
-        // Networking here, determine what type of user they are and take them to the correct screen
-        if (email.toLowerCase() === "admin") {
-            navigation.navigate('AdminRosterView');
-        } else if (email.toLowerCase() === "parent") {
-            navigation.navigate('ParentView');
-        } else {
-            navigation.navigate('ParentView');
-        }
-        
-    }
-
+    
     const handleCreateAccount = () => {
-        navigation.navigate('CreateAccountView');
+        // Networking here, determine what type of user they are and take them to the correct screen
+        navigation.navigate('AdminRosterView');
     }
     return (
-        <View style={styles.container} >
+        <View style={styles.container}>
+            <View style={styles.inputWidth}>
+                <FormInput 
+                    data={firstName}
+                    setData={setFirstName}
+                    title="First Name"
+                    placeholder="First Name"
+                />
+            </View>
+            <View style={styles.inputWidth}>
+                <FormInput 
+                    data={lastName}
+                    setData={setLastName}
+                    title="Last Name"
+                    placeholder="Last Name"
+                />
+            </View>
             <View style={styles.inputWidth}>
                 <FormInput 
                     data={email}
@@ -40,11 +47,6 @@ const SignInView = ({ navigation }) => {
                 />
             </View>
             <Button
-                title="Sign in"
-                onPress={handleSignIn}
-                style={styles.button}
-            />
-            <Button
                 title="Create Account"
                 onPress={handleCreateAccount}
                 style={styles.button}
@@ -58,18 +60,16 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
-        justifyContent: 'space-evenly',
-        flexDirection: "column",
-        padding: 30,
+        justifyContent: 'space-between',
     },
     inputWidth: {
-        width: "60%",
+        width: "40%",
     },
     button: {
         padding: 10,
         margin: 10,
         flex: 1,
     }
-  });
+});
 
-export default SignInView;
+export default CreateAccountView;
