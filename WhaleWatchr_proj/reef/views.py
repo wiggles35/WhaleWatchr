@@ -134,7 +134,7 @@ def parents_detail(request, pk):
     elif request.method == 'GET':
         data = Student.objects.filter(parent=pk)
         serializer = StudentSerializer(data, context={'request': request}, many=True)
-        return Response(serializer.data)
+        return Response({"students": serializer.data})
 
 
 @api_view(['GET', 'POST'])
