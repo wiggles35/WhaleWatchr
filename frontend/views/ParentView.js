@@ -1,56 +1,41 @@
-import React from 'react';
-import { Text, View, TextInput, StyleSheet } from 'react-native'
+import React, { useState, useEffect } from 'react';
+import { Text, View, TextInput, StyleSheet, ScrollView, ActivityIndicator } from 'react-native'
 import ActivityIcon from '../components/ActivityIcon'
+import ParentStudent from '../components/ParentStudent'
 
 const ParentView = () => {
-    // const [isLoading, setIsLoading] = useState(true);
-    // const [studentsObj, setStudentsObj] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [studentsObj, setStudentsObj] = useState([]);
 
-    // useEffect(() => {
-    //     fetch(studentsURL)
-    //         .then((response) => response.json())
-    //         .then((json) => {
-                
-    //             setIsLoading(false);
-    //         })
-    //         .catch((error) => alert(error))
-    // }, []);
+    const parentStudentsURL = 'http://db.cse.nd.edu:5004/api/parents/1'
+
+    useEffect(() => {
+        fetch(parentStudentsURL)
+            .then((response) => response.json())
+            .then((json) => {
+                setStudentsObj(json.students);
+                setIsLoading(false);
+            })
+            .catch((error) => alert(error))
+    }, []);
 
     return (
         <View style={styles.container}>
-            <View style={styles.studName}>
-                <Text style={{padding: 10, fontSize: 40}}>Parent View</Text>
-            </View>
-            <View style={styles.activityWeek}>
-                <View style={styles.activityContainer}>
-                    <View style={styles.innerActivityContainer}>
-                        <ActivityIcon
-                            actType="Walk"
-                        />
-                    </View>
-                </View>
-                <View style={styles.activityContainer}>
-                    <View style={styles.innerActivityContainer}>
-                        <ActivityIcon
-                            actType="Walk"
-                        />
-                    </View>
-                </View>
-                <View style={styles.activityContainer}>
-                    <View style={styles.innerActivityContainer}>
-                        <ActivityIcon
-                            actType="Walk"
-                        />
-                    </View>
-                </View>
-                <View style={styles.activityContainer}>
-                    <View style={styles.innerActivityContainer}>
-                        <ActivityIcon
-                            actType="Walk"
-                        />
-                    </View>
-                </View>
-            </View>
+            { isLoading ? (
+                        <ActivityIndicator styles={{justifyContent: "center", alignItems: "center", flex:1}} />
+                    ) : (
+                        <View style={{flex:1}}>
+                            <ScrollView style={{flex:1}} contentContainerStyle={{flexGrow: 1, flex: 1}}>
+                                {studentsObj.map(item => {
+                                    return (
+                                        <ParentStudent 
+                                            student={item}
+                                        />
+                                    )
+                                })}
+                            </ScrollView>
+                        </View>
+                    )}
         </View>
     );
 }
@@ -59,7 +44,6 @@ const styles = StyleSheet.create({
     container: {
         padding: 10,
         flex: 1,
-        flexDirection: "column",
 
     },
     studName: {
