@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Text, View, TextInput, StyleSheet } from 'react-native'
 import ActivityIcon from '../components/ActivityIcon'
 import ActivityWeekBar from './ActivityWeekBar'
-import Calendar from 'react-native-calendar-datepicker';
+import CalendarPicker from 'react-native-calendar-datepicker';
+import moment from 'moment';
 
 const ParentStudent = ({ student }) => {
+    const [date, setDate] = useState('');
 
+    const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
     return (
         <View style={styles.container}>
             <View style={styles.studName}>
@@ -15,7 +18,11 @@ const ParentStudent = ({ student }) => {
                 <ActivityWeekBar />
             </View>
             <View style={{flex:4}}>
-                <Calendar />
+                <CalendarPicker 
+                    weekdays={days}
+                    onDateChange={setDate}
+
+                />
             </View>
         </View>
     );

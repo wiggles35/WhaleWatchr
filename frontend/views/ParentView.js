@@ -30,6 +30,7 @@ const ParentView = () => {
                                     return (
                                         <ParentStudent 
                                             student={item}
+                                            key={item.student_id}
                                         />
                                     )
                                 })}
