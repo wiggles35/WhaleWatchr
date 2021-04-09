@@ -21,7 +21,7 @@ def students_list(request):
         response = {'students': {student['student_id']:student for student in students_serializer.data}, 
                     'parents': {parent['parent_id']:parent for parent in parents_serializer.data},
                     'advisors': {advisor['advisor_id']:advisor for advisor in advisors_serializer.data}
-                   }
+        }
         return Response(response)
 
     elif request.method == 'POST':
@@ -112,7 +112,7 @@ def parents_list(request):
             return Response(status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-@api_view(['PUT', 'DELETE'])
+@api_view(['GET', 'PUT', 'DELETE'])
 def parents_detail(request, pk):
     ''' This endpoint allows for deleting parents '''
     try:
@@ -130,6 +130,11 @@ def parents_detail(request, pk):
     elif request.method == 'DELETE':
         parent.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+    elif request.method == 'GET':
+        data = Student.objects.filter(parent=pk)
+        serializer = StudentSerializer(data, context={'request': request}, many=True)
+        return Response({"students": serializer.data})
 
 
 @api_view(['GET', 'POST'])
