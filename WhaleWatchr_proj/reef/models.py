@@ -43,7 +43,16 @@ class Student(models.Model):
     class Meta:
         db_table = 'student'
 
+
 class UpdateRequest(models.Model):
-    student_id = models.IntegerField(blank=False, null=False)
-    activity_curr = models.JSONField(default=list, blank=True, null=True)
-    activity_base = models.JSONField(default=list, blank=True, null=True)
+    student = models.IntegerField(blank=False, null=False)
+    new_activity_id = models.IntegerField(blank=True, null=True)
+
+
+class ActivityChange(models.Model):
+    student = models.ForeignKey(Student, models.CASCADE)
+    start_date = models.DateField()
+    activity_type = models.IntegerField()
+    permanent = models.BooleanField(default=False)
+
+    

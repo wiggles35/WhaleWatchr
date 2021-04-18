@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 
-from .models import Student, Advisor, Parent, UpdateRequest
+from .models import Student, Advisor, Parent, UpdateRequest, ActivityChange
 from .serializers import *
 
 
@@ -114,7 +114,7 @@ def parents_list(request):
 
 @api_view(['GET', 'PUT', 'DELETE'])
 def parents_detail(request, pk):
-    ''' This endpoint allows for deleting parents '''
+    ''' This endpoint allows for getting or modifying or deleting specific parents '''
     try:
         parent = Parent.objects.get(pk=pk)
     except Parent.DoesNotExist:
@@ -147,7 +147,22 @@ def updateRequest_list(request):
 
     elif request.method == 'POST':
         serializer = UpdateRequestSerializer(data=request.data)
-        if serializer.is_valid() and Student.objects.get(pk=serializer.validated_data['student_id']):
+        if serializer.is_valid() and Student.objects.get(pk=serializer.validated_data['student'].student_id):
+            serializer.save()
+            return Response(status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET', 'POST'])
+def activityChange_list(request):
+    ''' this is the endpoint for Creating and viewing activity requests '''
+    if request.method == 'GET':
+        data = ActivityChange.objects.all()
+        serializer = ActivityChangeSerializer(data, context={'request': request}, many=True)
+        return Response(serializer.data)
+
+    elif request.method == 'POST':
+        serializer = ActivityChangeSerializer(data=request.data)
+        if serializer.is_valid() and Student.objects.get(pk=serializer.validated_data['student'].student_id):
             serializer.save()
             return Response(status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
