@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Text, View, TextInput, StyleSheet, ActivityIndicator } from 'react-native'
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
-import TableStudent from '../components/TableStudent'
+import TableStudent from '../components/TableStudent';
+import { radius, colors } from '../constants/whaleStyle';
 
 const studentsURL = "http://db.cse.nd.edu:5004/api/students/"
 
@@ -42,27 +43,29 @@ const AdminRosterView = () => {
             .catch((error) => alert(error))
     }, []);
 
-    const renderStudent = ({ item }) => (
-        <TableStudent 
-            studentName={item.first_name + " " + item.last_name} 
-            advisorName={item.advisorName} 
-            parentName={item.parentName} 
-            parentEmail={item.parentEmail}
-            parentPhone={item.parentPhone}
-        />
-    );
-
     return (
         <View >
             <View style={styles.leftContainer}>
                 <Text style={{padding: 10, fontSize: 40}}>Admin Roster View</Text>
                 <View style={styles.container}>
-                    <Text style={styles.headerText}>Name</Text>
-                    <Text style={styles.headerText}>Transpo</Text>
-                    <Text style={styles.headerText}>Advisor</Text>
-                    <Text style={styles.headerText}>Parent</Text>
-                    <Text style={styles.headerText}>Email</Text>
-                    <Text style={styles.headerText}>Phone</Text>
+                    <View style={styles.infoWrapper}>
+                        <Text style={styles.headerText}>Name</Text>
+                    </View>
+                    <View style={styles.infoWrapper}>
+                        <Text style={styles.headerText}>Transpo</Text>
+                    </View>
+                    <View style={styles.infoWrapper}>
+                        <Text style={styles.headerText}>Advisor</Text>
+                    </View>
+                    <View style={styles.infoWrapper}>
+                        <Text style={styles.headerText}>Parent</Text>
+                    </View>
+                    <View style={styles.infoWrapper}>
+                        <Text style={styles.headerText}>Email</Text>
+                    </View>
+                    <View style={styles.infoWrapper}>
+                        <Text style={styles.headerText}>Phone</Text>
+                    </View>
                 </View>
                 <View styles={styles.scrollContainer} >
                     { isLoading ? (
@@ -93,13 +96,7 @@ const AdminRosterView = () => {
     );
 }
 
-/*
-<FlatList 
-                            data={studentsObj}
-                            renderItem={renderStudent}
-                            keyExtractor={item => item.student_id}
-                            styles={{height: 1000, flex: 1}}
-                        /> */
+
 const styles = StyleSheet.create({
     mainContainer: {
         width: "100%",
@@ -124,10 +121,10 @@ const styles = StyleSheet.create({
     container: {
         padding: 10,
         backgroundColor: "skyblue",
-        borderTopLeftRadius: 8,
-        borderTopRightRadius: 8,
+        borderTopLeftRadius: radius.m,
+        borderTopRightRadius: radius.m,
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        //justifyContent: 'space-between'
     },
     headerText: {
         padding: 10, 
@@ -135,6 +132,11 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         flex: 1
+    },
+    infoWrapper: {
+        flex:1, 
+        justifyContent: "center", 
+        alignItems: "center"
     }
 });
 
