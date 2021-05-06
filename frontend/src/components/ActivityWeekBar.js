@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View, TextInput, StyleSheet } from 'react-native'
-import ActivityIcon from '../components/ActivityIcon'
+import ActivityIcon from './ActivityIcon'
 
 const ActivityWeekBar = () => {
 
