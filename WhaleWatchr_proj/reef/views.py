@@ -6,6 +6,8 @@ from rest_framework import status
 from .models import Student, Advisor, Parent, UpdateRequest, ActivityChange
 from .serializers import *
 
+from datetime import date
+from django.db import connection
 
 @api_view(['GET', 'POST'])
 def students_list(request):
@@ -168,6 +170,12 @@ def activityChange_list(request):
     elif request.method == 'POST':
         serializer = ActivityChangeSerializer(data=request.data)
         if serializer.is_valid() and Student.objects.get(pk=serializer.validated_data['student'].student_id):
+            print(serializer.validated_data['start_date'])
+            print(date.today().strftime("%Y-%m-%d"))
             serializer.save()
+            if str(serializer.validated_data['start_date']) in str(date.today().strftime("%Y-%m-%d")):
+               with connection.cursor() as cursor:
+                    cursor.execute('UPDATE student, reef_activitychange SET student.activity_curr = JSON_SET(student.activity_curr,  CONCAT(CONCAT(\'$."\', CAST((DAYOFWEEK(CURDATE())-2) AS CHAR)), \'"\'), reef_activitychange.activity_type) WHERE reef_activitychange.start_date = CURRENT_DATE() AND reef_activitychange.student_id = student.student_id;')
+                    cursor.execute('UPDATE student, reef_activitychange SET student.activity_base = JSON_SET(student.activity_base,  CONCAT(CONCAT(\'$."\', CAST((DAYOFWEEK(CURDATE())-2) AS CHAR)), \'"\'), reef_activitychange.activity_type) WHERE reef_activitychange.permanent = True AND reef_activitychange.start_date = CURRENT_DATE() AND reef_activitychange.student_id = student.student_id;')
             return Response(status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
