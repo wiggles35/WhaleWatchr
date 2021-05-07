@@ -1,14 +1,14 @@
 drop table reef_activitychange;
+drop table reef_student;
 drop table reef_advisor;
 drop table reef_parent;
-drop table reef_student;
 drop table reef_transport_logs;
 drop table reef_updaterequest;
-truncate table student;
-truncate table parent;
-truncate table advisor;
+drop table student;
+drop table parent;
+drop table advisor;
 
-/*
+
 create table advisor(
 	advisor_id int primary key auto_increment,
 	first_name varchar(20),
@@ -48,7 +48,6 @@ create table student(
 	FOREIGN KEY (advisor_id)
 	references advisor(advisor_id)
 );
-*/
 
 insert into advisor(first_name, last_name, grade)
 	select distinct advisor_first_name, advisor_last_name, grade
