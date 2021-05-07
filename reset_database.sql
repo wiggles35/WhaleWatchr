@@ -1,3 +1,5 @@
+truncate table reef_updaterequest;
+truncate table reef_activitychange;
 truncate table student;
 truncate table parent;
 truncate table advisor;
