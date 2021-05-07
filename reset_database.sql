@@ -1,8 +1,8 @@
-drop table student;
-drop table parent;
-drop table advisor;
+truncate table student;
+truncate table parent;
+truncate table advisor;
 
-
+/*
 create table advisor(
 	advisor_id int primary key auto_increment,
 	first_name varchar(20),
@@ -42,6 +42,7 @@ create table student(
 	FOREIGN KEY (advisor_id)
 	references advisor(advisor_id)
 );
+*/
 
 insert into advisor(first_name, last_name, grade)
 	select distinct advisor_first_name, advisor_last_name, grade
