@@ -29,16 +29,22 @@ class Parent(models.Model):
 
 
 class Student(models.Model):
+
+    def default_dict():
+       return {'0' : 0, '1': 0, '2': 0, '3': 0, '4': 0}
+
     student_id = models.AutoField(primary_key=True)
     first_name = models.CharField(max_length=20, blank=True, null=True)
     last_name = models.CharField(max_length=20, blank=True, null=True)
     parent = models.ForeignKey(Parent, models.CASCADE, blank=True, null=True)
     advisor = models.ForeignKey(Advisor, models.CASCADE, blank=True, null=True)
-    grade = models.CharField(max_length=3, blank=True, null=True)
+    grade = models.CharField(max_length=4, blank=True, null=True)
     birthday = models.DateField(blank=True, null=True)
-    activity_curr = models.JSONField(default=list, blank=True, null=True)
-    activity_base = models.JSONField(default=list, blank=True, null=True)
+    activity_curr = models.JSONField(default=default_dict, blank=True, null=True)
+    activity_base = models.JSONField(default=default_dict, blank=True, null=True)
     route_no = models.IntegerField(blank=True, null=True)
+
+   
 
     class Meta:
         db_table = 'student'

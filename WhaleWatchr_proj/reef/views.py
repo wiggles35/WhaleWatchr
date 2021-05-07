@@ -147,10 +147,15 @@ def updateRequest_list(request):
 
     elif request.method == 'POST':
         serializer = UpdateRequestSerializer(data=request.data)
-        if serializer.is_valid() and Student.objects.get(pk=serializer.validated_data['student'].student_id):
+        if serializer.is_valid() and Student.objects.get(pk=serializer.validated_data['student']):
             serializer.save()
             return Response(status=status.HTTP_201_CREATED)
+        if serializer.is_valid():
+            print('valid')
+        else:
+            print('not valid')
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 @api_view(['GET', 'POST'])
 def activityChange_list(request):
