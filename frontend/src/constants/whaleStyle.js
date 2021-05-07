@@ -27,14 +27,10 @@ export const fontSize = {
 
 export const colors = {
     text: "#000",
-    primary100: "#dee3ea",
-    primary200: "#b2bdcd",
-    primary300: "#5d7290",
-    primary600: "#323d4d",
-    primary700: "#242c37",
-    primary800: "#151a21",
-    primary900: "#0b0e11",
+    primary: "#fff",
+    textInput: "#b8e6f5",
     secondary: "#5575e7",
+    formAccent: "#3893b0",
     secondaryWashedOut: "#879eed",
     accent: "#fd4d4d",
     accentHover: "#fd6868",

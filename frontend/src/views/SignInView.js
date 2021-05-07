@@ -13,7 +13,7 @@ const SignInView = ({ navigation }) => {
         } else if (email.toLowerCase() === "parent") {
             navigation.navigate('ParentView');
         } else {
-            navigation.navigate('ParentView');
+            navigation.navigate('AdminRosterView');
         }
         
     }

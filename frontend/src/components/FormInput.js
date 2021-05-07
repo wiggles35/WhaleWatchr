@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text, View, TextInput, StyleSheet } from 'react-native'
+import { colors } from '../constants/whaleStyle'
 
 const FormInput = ({ data, setData, title, placeholder }) => {
     return (
@@ -22,13 +23,13 @@ const FormInput = ({ data, setData, title, placeholder }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: colors.primary,
         alignItems: 'center',
         justifyContent: 'center',
         margin: 20,
     },
     inputWrapper: {
-        backgroundColor: '#b8e6f5',
+        backgroundColor: colors.textInput,
         marginTop: 10,
     },
     inputText: {
@@ -42,7 +43,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderBottomWidth: 2,
-        borderBottomColor: "#3893b0"
+        borderBottomColor: colors.formAccent,
     }
 });
 

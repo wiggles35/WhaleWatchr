@@ -3,91 +3,31 @@ import { Text, View, TextInput, StyleSheet, ActivityIndicator } from 'react-nati
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import TableStudent from '../components/TableStudent';
 import { radius, colors } from '../constants/whaleStyle';
+import { getAllStudents } from '../controllers/adminController';
+import AdminRosterPanel from '../components/adminRosterPanel';
 
 const studentsURL = "http://db.cse.nd.edu:5004/api/students/"
 
 const AdminRosterView = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [studentsObj, setStudentsObj] = useState([]);
+    const [isRoster, setIsRoster] = useState(true);
+    const [isActivity, setIsActivity] = useState(false);
+    const [isAdvisor, setIsAdvisor] = useState(false);
 
     useEffect(() => {
-        fetch(studentsURL)
-            .then((response) => response.json())
-            .then((json) => {
-                const studList = Object.values(json["students"]);
-                const fullStudList = studList.map((student) => {
-                    // for each student, add a new object to a list with all props of student plus advisor name
-                    let newStud = {
-                        ...student,
-                        'advisorName': (
-                            json["advisors"][student.advisor.toString()]["first_name"]
-                            + " " + json["advisors"][student.advisor.toString()]["last_name"]
-                        ),
-                        'parentName' : (
-                            json["parents"][student.parent.toString()]["first_name"] + " " + 
-                            json["parents"][student.parent.toString()]["last_name"]
-                        ),
-                        'parentEmail' : (
-                            json["parents"][student.parent.toString()]["email"]
-                        ),
-                        'parentPhone' : (
-                            json["parents"][student.parent.toString()]["phone_number"]
-                        )
-                    };
-                    return newStud;
-                });
-                setStudentsObj(fullStudList);
-                setIsLoading(false);
-                console.log(fullStudList);
-            })
-            .catch((error) => alert(error))
+        getAllStudents(setStudentsObj);
+        console.log(studentsObj);
+        setIsLoading(false);
     }, []);
 
     return (
-        <View >
+        <View style={styles.mainContainer}>
             <View style={styles.leftContainer}>
-                <Text style={{padding: 10, fontSize: 40}}>Admin Roster View</Text>
-                <View style={styles.container}>
-                    <View style={styles.infoWrapper}>
-                        <Text style={styles.headerText}>Name</Text>
-                    </View>
-                    <View style={styles.infoWrapper}>
-                        <Text style={styles.headerText}>Transpo</Text>
-                    </View>
-                    <View style={styles.infoWrapper}>
-                        <Text style={styles.headerText}>Advisor</Text>
-                    </View>
-                    <View style={styles.infoWrapper}>
-                        <Text style={styles.headerText}>Parent</Text>
-                    </View>
-                    <View style={styles.infoWrapper}>
-                        <Text style={styles.headerText}>Email</Text>
-                    </View>
-                    <View style={styles.infoWrapper}>
-                        <Text style={styles.headerText}>Phone</Text>
-                    </View>
-                </View>
-                <View styles={styles.scrollContainer} >
-                    { isLoading ? (
-                        <ActivityIndicator styles={{justifyContent: "center", alignItems: "center", flex:1}} />
-                    ) : (
-                        <View style={{flex:1}}>
-                        <ScrollView contentContainerStyle={{flexGrow: 1, flex: 1}}>
-                            {studentsObj.map(item => {
-                                return (
-                                    <TableStudent 
-                                        studentName={item.first_name + " " + item.last_name} 
-                                        advisorName={item.advisorName} 
-                                        parentName={item.parentName} 
-                                        parentEmail={item.parentEmail}
-                                        parentPhone={item.parentPhone}
-                                    /> 
-                                )
-                            })}
-                        </ScrollView>
-                        </View>
-                    )}
-                </View>
+                <AdminRosterPanel 
+                    studentsObj={studentsObj}
+                    isLoading={isLoading}
+                />
             </View>
             <View style={styles.rightContainer}>
                 <Text>Right Container</Text>
