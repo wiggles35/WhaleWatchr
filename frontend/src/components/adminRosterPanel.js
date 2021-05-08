@@ -5,8 +5,8 @@ import TableStudent from '../components/TableStudent';
 import { radius, colors } from '../constants/whaleStyle';
 import RosterHeader from './RosterHeader';
 
-const AdminRosterPanel = ( studentsObj ) => {
-    
+const AdminRosterPanel = ({ studentsObj }) => {
+
     return (
         <View style={styles.mainContainer}>
             <Text style={{padding: 10, fontSize: 40}}>Admin Roster View</Text>
@@ -15,7 +15,6 @@ const AdminRosterPanel = ( studentsObj ) => {
                 <View style={{flex:1}}>
                 <ScrollView contentContainerStyle={{flexGrow: 1, flex: 1}}>
                     {studentsObj.map(item => {
-                        console.log(item);
                         return (
                             <TableStudent 
                                 studentName={item.first_name + " " + item.last_name} 
