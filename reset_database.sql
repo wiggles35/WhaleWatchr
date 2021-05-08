@@ -1,3 +1,9 @@
+drop table reef_activitychange;
+drop table reef_student;
+drop table reef_advisor;
+drop table reef_parent;
+drop table reef_transport_logs;
+drop table reef_updaterequest;
 drop table student;
 drop table parent;
 drop table advisor;
@@ -31,11 +37,13 @@ create table student(
 	advisor_id int, 
 	grade varchar(3),
 	birthday date,
-	activity_id int,
+	activity_curr json,
+	activity_base json,
 	route_no int,
 
 	FOREIGN KEY (parent_id)
-	references parent(parent_id),
+	references parent(parent_id)
+	on delete cascade,
 
 	FOREIGN KEY (advisor_id)
 	references advisor(advisor_id)
