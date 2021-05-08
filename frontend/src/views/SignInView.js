@@ -84,4 +84,11 @@ const htmlContent = `
 </html>
 `;
 
+const SignInView = () => {
+    //props related to login that need to get passed to other views here
+
+    return (
+        //HTML Component here
+    );
+}
 export default SignInView;
