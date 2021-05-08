@@ -24,10 +24,15 @@ const AdminRosterView = () => {
     return (
         <View style={styles.mainContainer}>
             <View style={styles.leftContainer}>
-                <AdminRosterPanel 
-                    studentsObj={studentsObj}
-                    isLoading={isLoading}
-                />
+                { isLoading ? (
+                    <View styles={{justifyContent: "center", alignItems: "center", padding: 40, margin: 40, backgroundColor: "#000", flex:1}}>
+                        <ActivityIndicator />
+                    </View>
+                ) : (
+                    <AdminRosterPanel 
+                        studentsObj={studentsObj}
+                    />
+                )}
             </View>
             <View style={styles.rightContainer}>
                 <Text>Right Container</Text>
