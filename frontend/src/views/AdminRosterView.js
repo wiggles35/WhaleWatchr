@@ -21,6 +21,24 @@ const AdminRosterView = () => {
         setIsLoading(false);
     }, []);
 
+    let buttons = [
+        {
+            name: "Roster",
+            state: isRoster,
+            set: setIsRoster
+        },
+        {
+            name: "Activity",
+            state: isActivity,
+            set: setIsActivity
+        },
+        {
+            name: "Advisor",
+            state: isAdvisor,
+            set: setIsAdvisor
+        }
+    ]
+
     return (
         <View style={styles.mainContainer}>
             <View style={styles.leftContainer}>
