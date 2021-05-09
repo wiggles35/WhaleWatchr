@@ -20,15 +20,16 @@ const TeacherStudent = ({ studentName }) => {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: "#fff",
-        borderRadius: 4,
+        borderRadius: 2,
         shadowColor: "#000",
         shadowOffset: {width: 3, height: 4},
         shadowOpacity: .4,
         shadowRadius: 4,
         flexDirection: 'row',
-        marginTop: 7,
-        marginBottom: 7,
+        marginTop: 3,
+        marginBottom: 3,
         width: '99%',
+        height: '20%', // This was the fix
         alignItems: "center"
         //justifyContent: 'space-between'
     },
@@ -40,7 +41,7 @@ const styles = StyleSheet.create({
         flex:1, 
         justifyContent: "center", 
         alignItems: "center",
-        backgroundColor: 'red',
+        backgroundColor: 'red'
     }
 });
 

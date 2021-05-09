@@ -59,19 +59,19 @@ const styles = StyleSheet.create({
     activityWeek: {
         flex: 1,
         flexDirection: "row",
-        justifyContent: "space-between",
-
+        justifyContent: "space-evenly",
     },
     activityContainer: {
         flex:1, 
         justifyContent: "center", 
         alignItems: "center",
         backgroundColor: "white",
+        lineHeight: 1.1
     },
-    innerActivityContainer: {
+    /* innerActivityContainer: {
         width: "50%",
         height: "50%",
-    }
+    } */
 });
 
 export default AdvisorView;
