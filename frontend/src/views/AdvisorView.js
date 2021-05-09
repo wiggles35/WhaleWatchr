@@ -22,7 +22,7 @@ const AdvisorView = () => {
     }, []);
 
     return (
-        <View style={StyleSheet.container}>
+        <View style={styles.container}>
             { isLoading ? (
                 <ActivityIndicator style = {{justifyContent: "center", alignItems: "center", flex:1}} />
 
