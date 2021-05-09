@@ -7,7 +7,9 @@ const panelSelectionBar = ({ buttons }) => {
 
     const renderItem = ({ item }) => {
         <TouchableOpacity>
-            
+            <View>
+
+            </View>
         </TouchableOpacity>
     };
 
