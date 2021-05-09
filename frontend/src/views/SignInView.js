@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ScrollView, useWindowDimensions } from "react-native";
+import { ScrollView, useWindowDimensions, View } from "react-native";
 import HTML from "react-native-render-html";
 
 const htmlContent = `
@@ -86,9 +86,12 @@ const htmlContent = `
 
 const SignInView = () => {
     //props related to login that need to get passed to other views here
-
+    const contentWidth = useWindowDimensions().width;
     return (
         //HTML Component here
+        <View style={{felx: 1}}>
+            <HTML source={{ html: htmlContent }} contentWidth={contentWidth} />
+        </View>
     );
 }
 export default SignInView;

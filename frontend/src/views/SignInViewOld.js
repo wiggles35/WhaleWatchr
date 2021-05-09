@@ -12,8 +12,10 @@ const SignInViewOld = ({ navigation }) => {
             navigation.navigate('AdminRosterView');
         } else if (email.toLowerCase() === "parent") {
             navigation.navigate('ParentView');
+        } else if (email.toLowerCase() === "advisor") {
+            navigation.navigate('AdvisorView');
         } else {
-            navigation.navigate('AdminRosterView');
+            navigation.navigate('AdvisorView');
         }
         
     }
