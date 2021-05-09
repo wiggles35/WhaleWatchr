@@ -12,7 +12,8 @@ const ActivityIcon = ({ actType, busNum }) => {
 
 const styles = StyleSheet.create({
     container: {
-        padding: 3,
+        //padding: 3,
+        height: "100%",
         backgroundColor: "skyblue",
         borderRadius: 4,
         shadowColor: "#000",
