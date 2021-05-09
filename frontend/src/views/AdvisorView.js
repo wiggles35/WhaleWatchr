@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Text, View, TextInput, StyleSheet, ScrollView, ActivityIndicator } from 'react-native'
 import ActivityIcon from '../components/ActivityIcon'
 import ParentStudent from '../components/ParentStudent'
+import TeacherStudent from '../components/TeacherStudent'
 
-const TeacherRosterView = () => {
+const AdvisorView = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [studentsObj, setStudentsObj] = useState([]);
 
@@ -13,7 +14,8 @@ const TeacherRosterView = () => {
         fetch(teacherStudentsURL)
             .then((response) => response.json())
             .then((json) => {
-                setStudentsObj(json.students);
+                setStudentsObj(json);
+                console.log(json);
                 setIsLoading(false);
             })
             .catch((error) => alert(error))
@@ -22,15 +24,16 @@ const TeacherRosterView = () => {
     return (
         <View style={StyleSheet.container}>
             { isLoading ? (
-                <ActivityIndicator styles = {{justifyContent: "center", alignItems: "center", flex:1}} />
+                <ActivityIndicator style = {{justifyContent: "center", alignItems: "center", flex:1}} />
 
             ) : (
-                <View styler = {{flex:1}}>
-                    <ScrollView styler = {{flex: 1}} contentContainerStyle = {{flexGrow: 1, flex: 1}}>
+                <View style = {{flex:1}}>
+                    <ScrollView style = {{flex: 1}} contentContainerStyle = {{flexGrow: 1, flex: 1}}>
                         {studentsObj.map(item => {
                             return (
                                 <TeacherStudent
-                                    studentName = {item}
+                                    studentName = {item.first_name + ' ' + item.last_name}
+                                    key={item.student_id}
                                 />
                             );
                         })}
@@ -71,4 +74,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default TeacherRosterView;
+export default AdvisorView;
