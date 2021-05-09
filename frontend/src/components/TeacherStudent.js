@@ -9,7 +9,7 @@ const TeacherStudent = ({ studentName }) => {
                 <Text style={styles.infoText}>{studentName}</Text>
             </View>
             <View style={styles.infoWrapper}>
-                <View style={{width: "50%", height: "40%", backgroundColor: 'black'}}>
+                <View style={{width: "50%", height: "40%"}}>
                     <ActivityIcon actType='Bus' busNum='35' />
                 </View>
             </View>
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
         flex:1, 
         justifyContent: "center", 
         alignItems: "center",
-        backgroundColor: 'red'
+        //backgroundColor: 'red'
     }
 });
 
