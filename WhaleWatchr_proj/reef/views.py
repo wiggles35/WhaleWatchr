@@ -163,9 +163,15 @@ def updateRequest_list(request):
 def activityChange_list(request):
     ''' this is the endpoint for Creating and viewing activity requests '''
     if request.method == 'GET':
-        data = ActivityChange.objects.all()
-        serializer = ActivityChangeSerializer(data, context={'request': request}, many=True)
-        return Response(serializer.data)
+        activityData = ActivityChange.objects.all()
+        studentData = Student.objects.all()
+        actSerializer = ActivityChangeSerializer(activityData, context={'request': request}, many=True)
+        studSerializer = ActivityChangeSerializer(studentData, context={'request': request}, many=True)
+        response = [actDict.update(
+                {'student_name' : studSerializer.data[actDict['student']]['first_name'] 
+                + ' ' + studSerializer.data[actDict['student']]['last_name']}
+                ) for actDict in actSerializer.data]
+        return Response(response)
 
     elif request.method == 'POST':
         serializer = ActivityChangeSerializer(data=request.data)
@@ -174,7 +180,7 @@ def activityChange_list(request):
             print(date.today().strftime("%Y-%m-%d"))
             serializer.save()
             if str(serializer.validated_data['start_date']) in str(date.today().strftime("%Y-%m-%d")):
-               with connection.cursor() as cursor:
+                with connection.cursor() as cursor:
                     cursor.execute('UPDATE student, reef_activitychange SET student.activity_curr = JSON_SET(student.activity_curr,  CONCAT(CONCAT(\'$."\', CAST((DAYOFWEEK(CURDATE())-2) AS CHAR)), \'"\'), reef_activitychange.activity_type) WHERE reef_activitychange.start_date = CURRENT_DATE() AND reef_activitychange.student_id = student.student_id;')
                     cursor.execute('UPDATE student, reef_activitychange SET student.activity_base = JSON_SET(student.activity_base,  CONCAT(CONCAT(\'$."\', CAST((DAYOFWEEK(CURDATE())-2) AS CHAR)), \'"\'), reef_activitychange.activity_type) WHERE reef_activitychange.permanent = True AND reef_activitychange.start_date = CURRENT_DATE() AND reef_activitychange.student_id = student.student_id;')
             return Response(status=status.HTTP_201_CREATED)
