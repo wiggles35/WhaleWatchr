@@ -3,10 +3,10 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 
-from .models import Student, Advisor, Parent, UpdateRequest, ActivityChange
+from .models import Student, Advisor, Parent, UpdateRequest, ActivityChange, ActivityDetail
 from .serializers import *
 
-from datetime import date
+from datetime import date, timedelta
 from django.db import connection
 
 @api_view(['GET', 'POST'])
@@ -152,16 +152,20 @@ def updateRequest_list(request):
         if serializer.is_valid() and Student.objects.get(pk=serializer.validated_data['student']):
             serializer.save()
             return Response(status=status.HTTP_201_CREATED)
-        if serializer.is_valid():
-            print('valid')
-        else:
-            print('not valid')
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET', 'POST'])
 def activityChange_list(request):
     ''' this is the endpoint for Creating and viewing activity requests '''
+    def date_range():
+        dates = [str(date.today().strftime("%Y-%m-%d"))]
+        for i in range(1, 5):
+            new_date = date.today() + timedelta(days=i)
+            if new_date.weekday() < 5:
+                dates.append(str((date.today() + timedelta(days=i)).strftime("%Y-%m-%d")))
+        return dates
+    
     if request.method == 'GET':
         data = ActivityChange.objects.all()
         serializer = ActivityChangeSerializer(data, context={'request': request}, many=True)
@@ -170,12 +174,38 @@ def activityChange_list(request):
     elif request.method == 'POST':
         serializer = ActivityChangeSerializer(data=request.data)
         if serializer.is_valid() and Student.objects.get(pk=serializer.validated_data['student'].student_id):
-            print(serializer.validated_data['start_date'])
-            print(date.today().strftime("%Y-%m-%d"))
             serializer.save()
-            if str(serializer.validated_data['start_date']) in str(date.today().strftime("%Y-%m-%d")):
+            if str(serializer.validated_data['start_date']) in date_range():
                with connection.cursor() as cursor:
                     cursor.execute('UPDATE student, reef_activitychange SET student.activity_curr = JSON_SET(student.activity_curr,  CONCAT(CONCAT(\'$."\', CAST((DAYOFWEEK(CURDATE())-2) AS CHAR)), \'"\'), reef_activitychange.activity_type) WHERE reef_activitychange.start_date = CURRENT_DATE() AND reef_activitychange.student_id = student.student_id;')
                     cursor.execute('UPDATE student, reef_activitychange SET student.activity_base = JSON_SET(student.activity_base,  CONCAT(CONCAT(\'$."\', CAST((DAYOFWEEK(CURDATE())-2) AS CHAR)), \'"\'), reef_activitychange.activity_type) WHERE reef_activitychange.permanent = True AND reef_activitychange.start_date = CURRENT_DATE() AND reef_activitychange.student_id = student.student_id;')
             return Response(status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET', 'POST'])
+def activityDetail_list(request):
+    ''' This is where you see all activities or post a new activity type '''
+    if request.method == 'GET':
+        data = ActivityChange.objects.all()
+        serializer = ActivityChangeSerializer(data, context={'request': request}, many=True)
+        return Response(serializer.data)
+
+    elif request.method == 'POST':
+        serializer = ActivityDetailSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def activityDetail_detail(request, pk):
+    ''' Get information about a specific activity '''
+    try:
+       activity = ActivityDetail.objects.get(pk=pk)
+    except ActivityDetail.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = ActivityDetailSerializer(data, context={'request': request}, many=False)
+        return Response(serializer.data)

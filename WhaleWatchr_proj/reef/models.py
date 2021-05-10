@@ -49,16 +49,19 @@ class Student(models.Model):
     class Meta:
         db_table = 'student'
 
+class ActivityDetail(models.Model):
+    id = models.IntegerField(primary_key=True, unique=True)
+    name = models.CharField(blank=True, null=True, max_length=100)
+    detail = models.CharField(blank=True, null=True, max_length=255)
+
 
 class UpdateRequest(models.Model):
     student = models.IntegerField(blank=False, null=False)
-    new_activity_id = models.IntegerField(blank=True, null=True)
+    new_activity_id = models.ForeignKey(ActivityDetail, models.CASCADE)
 
 
 class ActivityChange(models.Model):
     student = models.ForeignKey(Student, models.CASCADE)
     start_date = models.DateField()
-    activity_type = models.IntegerField()
+    activity_type = models.ForeignKey(ActivityDetail, models.CASCADE)
     permanent = models.BooleanField(default=False)
-
-    
