@@ -20,9 +20,7 @@ const AdminRosterView = () => {
     const [isAdvisor, setIsAdvisor] = useState(false);
 
     useEffect(() => {
-        getAllStudents(setStudentsObj, setFullDict);
-        getActivityChanges(setActList, fullDict);
-        console.log(studentsObj);
+        getAllStudents(setStudentsObj, setFullDict, setActList);
         setIsLoading(false);
     }, []);
 
@@ -58,7 +56,18 @@ const AdminRosterView = () => {
                 )}
             </View>
             <View style={styles.rightContainer}>
-                <Text>Right Container</Text>
+                { isLoading ? (
+                    <View styles={{justifyContent: "center", alignItems: "center", padding: 40, margin: 40, backgroundColor: "#000", flex:1}}>
+                        <ActivityIndicator />
+                    </View>
+                ) : (
+                    <View style={{justifyContent: "center", alignItems: "center", flex: 1}}>
+                        <AdminActivitiesPanel 
+                            actList={actList}
+                            setActList={setActList}
+                        />
+                    </View>
+                )}
             </View>
         </View>
     );
@@ -72,13 +81,13 @@ const styles = StyleSheet.create({
     },
     leftContainer: {
         paddingTop: 10,
-        height: 600,
+        height: 700,
         flexDirection: "column",
         flex: 7,
     },
     rightContainer: {
         paddingTop: 10,
-        height: 600,
+        height: 700,
         flexDirection: "column",
         flex: 3,
     },

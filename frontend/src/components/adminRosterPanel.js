@@ -11,24 +11,21 @@ const AdminRosterPanel = ({ studentsObj }) => {
         <View style={styles.mainContainer}>
             <Text style={{padding: 10, fontSize: 40}}>Admin Roster View</Text>
             <RosterHeader/>
-            <View styles={styles.scrollContainer} >
-                <View style={{flex:1}}>
-                <ScrollView contentContainerStyle={{flexGrow: 1, flex: 1}}>
-                    {studentsObj.map(item => {
-                        return (
-                            <TableStudent 
-                                studentName={item.first_name + " " + item.last_name} 
-                                advisorName={item.advisorName} 
-                                parentName={item.parentName} 
-                                parentEmail={item.parentEmail}
-                                parentPhone={item.parentPhone}
-                                key={item.student_id}
-                            /> 
-                        );
-                    })}
-                </ScrollView>
-                </View>
-            </View>
+            <ScrollView >
+                {studentsObj.map(item => {
+                    return (
+                        <TableStudent 
+                            studentName={item.first_name + " " + item.last_name} 
+                            advisorName={item.advisorName} 
+                            parentName={item.parentName} 
+                            parentEmail={item.parentEmail}
+                            parentPhone={item.parentPhone}
+                            actStr={item.actToday}
+                            key={item.student_id}
+                        /> 
+                    );
+                })}
+            </ScrollView>
         </View>
     );
 }
@@ -37,7 +34,9 @@ const AdminRosterPanel = ({ studentsObj }) => {
 const styles = StyleSheet.create({
     mainContainer: {
         width: "100%",
-        flexDirection: "column"
+        height: "100%",
+        flexDirection: "column",
+        textAlign: 'center',
     },
     scrollContainer: {
         paddingTop: 10,
