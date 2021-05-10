@@ -2,15 +2,24 @@ import React from 'react';
 import { Text, View, StyleSheet } from 'react-native'
 import ActivityIcon from './ActivityIcon'
 
-const TableStudent = ({ studentName, advisorName, parentName, parentEmail, parentPhone }) => {
+const TableStudent = ({ studentName, advisorName, parentName, parentEmail, parentPhone, actStr }) => {
     return (
         <View style={styles.container}>
             <View style={styles.infoWrapper}>
                 <Text style={styles.infoText}>{studentName}</Text>
             </View>
             <View style={styles.infoWrapper}>
-                <View style={{width: "50%"}}>
-                    <ActivityIcon actType='Bus' busNum='35' />
+                <View style={{width: "50%", height: "80%"}}>
+                    <ActivityIcon 
+                        actType={
+                            (actStr === 'Walk' || actStr === 'Parent Pickup') ? 
+                            (actStr) : ('Bus')
+                        } 
+                        busNum={
+                            (actStr === 'Walk' || actStr === 'Parent Pickup') ? 
+                            (null) : (actStr.split(' ')[1])
+                        }
+                    />
                 </View>
             </View>
             <View style={styles.infoWrapper}>
@@ -42,17 +51,24 @@ const styles = StyleSheet.create({
         marginTop: 7,
         marginBottom: 7,
         width: '99%',
+        height: 100,
         alignItems: "center"
         //justifyContent: 'space-between'
     },
     infoText: {
         padding: 10, 
         fontSize: 15,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     infoWrapper: {
         flex:1, 
         justifyContent: "center", 
-        alignItems: "center"
+        alignItems: "center",
+        height: "80%",
+        display: 'flex', 
+        flexDirection: 'column', 
+        textAlign: 'center'
     }
 });
 

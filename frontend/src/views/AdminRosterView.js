@@ -3,94 +3,71 @@ import { Text, View, TextInput, StyleSheet, ActivityIndicator } from 'react-nati
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import TableStudent from '../components/TableStudent';
 import { radius, colors } from '../constants/whaleStyle';
-
-const studentsURL = "http://db.cse.nd.edu:5004/api/students/"
+import { getAllStudents } from '../controllers/adminController';
+import AdminRosterPanel from '../components/adminRosterPanel';
+import AdminActivitiesPanel from '../components/adminActivitiesPanel'
 
 const AdminRosterView = () => {
+    //states to wait for and hold data from api
     const [isLoading, setIsLoading] = useState(true);
     const [studentsObj, setStudentsObj] = useState([]);
+    const [fullDict, setFullDict] = useState({});
+    const [actList, setActList] = useState([]);
+
+    // states for left panel control
+    const [isRoster, setIsRoster] = useState(true);
+    const [isActivity, setIsActivity] = useState(false);
+    const [isAdvisor, setIsAdvisor] = useState(false);
 
     useEffect(() => {
-        fetch(studentsURL)
-            .then((response) => response.json())
-            .then((json) => {
-                const studList = Object.values(json["students"]);
-                const fullStudList = studList.map((student) => {
-                    // for each student, add a new object to a list with all props of student plus advisor name
-                    let newStud = {
-                        ...student,
-                        'advisorName': (
-                            json["advisors"][student.advisor.toString()]["first_name"]
-                            + " " + json["advisors"][student.advisor.toString()]["last_name"]
-                        ),
-                        'parentName' : (
-                            json["parents"][student.parent.toString()]["first_name"] + " " + 
-                            json["parents"][student.parent.toString()]["last_name"]
-                        ),
-                        'parentEmail' : (
-                            json["parents"][student.parent.toString()]["email"]
-                        ),
-                        'parentPhone' : (
-                            json["parents"][student.parent.toString()]["phone_number"]
-                        )
-                    };
-                    return newStud;
-                });
-                setStudentsObj(fullStudList);
-                setIsLoading(false);
-                console.log(fullStudList);
-            })
-            .catch((error) => alert(error))
+        getAllStudents(setStudentsObj, setFullDict, setActList);
+        setIsLoading(false);
     }, []);
 
+    const buttons = [
+        {
+            name: "Roster",
+            state: isRoster,
+            set: setIsRoster
+        },
+        {
+            name: "Activity",
+            state: isActivity,
+            set: setIsActivity
+        },
+        {
+            name: "Advisor",
+            state: isAdvisor,
+            set: setIsAdvisor
+        }
+    ]
+
     return (
-        <View >
+        <View style={styles.mainContainer}>
             <View style={styles.leftContainer}>
-                <Text style={{padding: 10, fontSize: 40}}>Admin Roster View</Text>
-                <View style={styles.container}>
-                    <View style={styles.infoWrapper}>
-                        <Text style={styles.headerText}>Name</Text>
+                { isLoading ? (
+                    <View styles={{justifyContent: "center", alignItems: "center", padding: 40, margin: 40, backgroundColor: "#000", flex:1}}>
+                        <ActivityIndicator />
                     </View>
-                    <View style={styles.infoWrapper}>
-                        <Text style={styles.headerText}>Transpo</Text>
-                    </View>
-                    <View style={styles.infoWrapper}>
-                        <Text style={styles.headerText}>Advisor</Text>
-                    </View>
-                    <View style={styles.infoWrapper}>
-                        <Text style={styles.headerText}>Parent</Text>
-                    </View>
-                    <View style={styles.infoWrapper}>
-                        <Text style={styles.headerText}>Email</Text>
-                    </View>
-                    <View style={styles.infoWrapper}>
-                        <Text style={styles.headerText}>Phone</Text>
-                    </View>
-                </View>
-                <View styles={styles.scrollContainer} >
-                    { isLoading ? (
-                        <ActivityIndicator styles={{justifyContent: "center", alignItems: "center", flex:1}} />
-                    ) : (
-                        <View style={{flex:1}}>
-                        <ScrollView contentContainerStyle={{flexGrow: 1, flex: 1}}>
-                            {studentsObj.map(item => {
-                                return (
-                                    <TableStudent 
-                                        studentName={item.first_name + " " + item.last_name} 
-                                        advisorName={item.advisorName} 
-                                        parentName={item.parentName} 
-                                        parentEmail={item.parentEmail}
-                                        parentPhone={item.parentPhone}
-                                    /> 
-                                )
-                            })}
-                        </ScrollView>
-                        </View>
-                    )}
-                </View>
+                ) : (
+                    <AdminRosterPanel 
+                        studentsObj={studentsObj}
+                    />
+                )}
             </View>
             <View style={styles.rightContainer}>
-                <Text>Right Container</Text>
+                { isLoading ? (
+                    <View styles={{justifyContent: "center", alignItems: "center", padding: 40, margin: 40, backgroundColor: "#000", flex:1}}>
+                        <ActivityIndicator />
+                    </View>
+                ) : (
+                    <View style={{justifyContent: "center", alignItems: "center", flex: 1}}>
+                        <AdminActivitiesPanel 
+                            actList={actList}
+                            setActList={setActList}
+                        />
+                    </View>
+                )}
             </View>
         </View>
     );
@@ -104,13 +81,13 @@ const styles = StyleSheet.create({
     },
     leftContainer: {
         paddingTop: 10,
-        height: 600,
+        height: 700,
         flexDirection: "column",
         flex: 7,
     },
     rightContainer: {
         paddingTop: 10,
-        height: 600,
+        height: 700,
         flexDirection: "column",
         flex: 3,
     },

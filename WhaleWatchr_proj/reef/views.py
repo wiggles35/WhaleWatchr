@@ -167,9 +167,9 @@ def activityChange_list(request):
         return dates
     
     if request.method == 'GET':
-        data = ActivityChange.objects.all()
-        serializer = ActivityChangeSerializer(data, context={'request': request}, many=True)
-        return Response(serializer.data)
+        activityData = ActivityChange.objects.all()
+        actSerializer = ActivityChangeSerializer(activityData, context={'request': request}, many=True)
+        return Response(actSerializer.data)
 
     elif request.method == 'POST':
         serializer = ActivityChangeSerializer(data=request.data)
