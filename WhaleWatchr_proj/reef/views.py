@@ -164,11 +164,8 @@ def activityChange_list(request):
     ''' this is the endpoint for Creating and viewing activity requests '''
     if request.method == 'GET':
         activityData = ActivityChange.objects.all()
-        studentData = Student.objects.all()
         actSerializer = ActivityChangeSerializer(activityData, context={'request': request}, many=True)
-        studSerializer = ActivityChangeSerializer(studentData, context={'request': request}, many=True)
-        response = [actDict['student_info'] = studSerializer.data[actDict['student']] for actDict in actSerializer.data]
-        return Response(response)
+        return Response(actSerializer.data)
 
     elif request.method == 'POST':
         serializer = ActivityChangeSerializer(data=request.data)
