@@ -5,23 +5,28 @@ import TableStudent from '../components/TableStudent';
 import { radius, colors } from '../constants/whaleStyle';
 import { getAllStudents } from '../controllers/adminController';
 import AdminRosterPanel from '../components/adminRosterPanel';
-
-const studentsURL = "http://db.cse.nd.edu:5004/api/students/"
+import AdminActivitiesPanel from '../components/adminActivitiesPanel'
 
 const AdminRosterView = () => {
+    //states to wait for and hold data from api
     const [isLoading, setIsLoading] = useState(true);
     const [studentsObj, setStudentsObj] = useState([]);
+    const [fullDict, setFullDict] = useState({});
+    const [actList, setActList] = useState([]);
+
+    // states for left panel control
     const [isRoster, setIsRoster] = useState(true);
     const [isActivity, setIsActivity] = useState(false);
     const [isAdvisor, setIsAdvisor] = useState(false);
 
     useEffect(() => {
-        getAllStudents(setStudentsObj);
+        getAllStudents(setStudentsObj, setFullDict);
+        getActivityChanges(setActList, fullDict);
         console.log(studentsObj);
         setIsLoading(false);
     }, []);
 
-    let buttons = [
+    const buttons = [
         {
             name: "Roster",
             state: isRoster,

@@ -1,11 +1,12 @@
 
 
-export const getAllStudents = (setStudentsObj) => {
+export const getAllStudents = (setStudentsObj, setFullDict) => {
     const studentsURL = "http://db.cse.nd.edu:5004/api/students/"
 
     fetch(studentsURL)
             .then((response) => response.json())
             .then((json) => {
+                setFullDict(json)
                 const studList = Object.values(json["students"]);
                 const fullStudList = studList.map((student) => {
                     // for each student, add a new object to a list with all props of student plus advisor name
@@ -32,4 +33,26 @@ export const getAllStudents = (setStudentsObj) => {
                 setStudentsObj(fullStudList);
             })
             .catch((error) => alert(error));
+};
+
+export const getActiviyChanges = ( setActList, fullDict ) => {
+
+    const activitiesURL = "http://db.cse.nd.edu:5004/api/activityChange/"
+
+    fetch(activitiesURL)
+        .then((response) => response.json())
+        .then((json) => {
+            const newActList = json.map((actReq) => {
+                return {
+                    ...actReq,
+                    'student_name': (
+                        fullDict['students'][actReq['student']]['first_name']
+                        + ' ' + fullDict['students'][actReq['student']]['last_name']
+                    )
+                };
+            });
+            console.log(newActList);
+            setActList(newActList);
+        })
+        .catch((error) => alert(error));
 };

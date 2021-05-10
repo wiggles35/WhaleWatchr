@@ -9,7 +9,7 @@ const TeacherStudent = ({ studentName }) => {
                 <Text style={styles.infoText}>{studentName}</Text>
             </View>
             <View style={styles.infoWrapper}>
-                <View style={{width: "50%", height: "40%"}}>
+                <View style={{width: "40%", height: "40%"}}>
                     <ActivityIcon actType='Bus' busNum='35' />
                 </View>
             </View>
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
         marginTop: 3,
         marginBottom: 3,
         width: '99%',
-        height: '20%', // This was the fix
+        height: '15%', // This was the fix
         alignItems: "center"
         //justifyContent: 'space-between'
     },
