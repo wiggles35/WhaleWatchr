@@ -167,10 +167,7 @@ def activityChange_list(request):
         studentData = Student.objects.all()
         actSerializer = ActivityChangeSerializer(activityData, context={'request': request}, many=True)
         studSerializer = ActivityChangeSerializer(studentData, context={'request': request}, many=True)
-        response = [actDict.update(
-                {'student_name' : studSerializer.data[actDict['student']]['first_name'] 
-                + ' ' + studSerializer.data[actDict['student']]['last_name']}
-                ) for actDict in actSerializer.data]
+        response = [actDict['student_info'] = studSerializer.data[actDict['student']] for actDict in actSerializer.data]
         return Response(response)
 
     elif request.method == 'POST':
