@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Student, Advisor, Parent, UpdateRequest, ActivityChange, ActivityDetail
+from .models import Student, Advisor, Parent,  ActivityChange, ActivityDetail, UpdateRequest
 
 class StudentSerializer(serializers.ModelSerializer):
 
@@ -23,6 +23,7 @@ class UpdateRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = UpdateRequest
         fields = '__all__'
+
 
 class ActivityChangeSerializer(serializers.ModelSerializer):
     class Meta:

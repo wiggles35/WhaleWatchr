@@ -1,5 +1,7 @@
 from django.db import models
 
+from datetime import date
+
 
 class Advisor(models.Model):
     advisor_id = models.AutoField(primary_key=True)
@@ -44,10 +46,10 @@ class Student(models.Model):
     activity_base = models.JSONField(default=default_dict, blank=True, null=True)
     route_no = models.IntegerField(blank=True, null=True)
 
-   
 
     class Meta:
         db_table = 'student'
+
 
 class ActivityDetail(models.Model):
     id = models.IntegerField(primary_key=True, unique=True)
@@ -57,8 +59,10 @@ class ActivityDetail(models.Model):
 
 class UpdateRequest(models.Model):
     student = models.IntegerField(blank=False, null=False)
-    new_activity_id = models.ForeignKey(ActivityDetail, models.CASCADE)
-    
+    activityDetail = models.ForeignKey(ActivityDetail, models.CASCADE)
+    permanent = models.BooleanField(default=False)
+    start_date = models.DateField(default=date.today())
+
 
 class ActivityChange(models.Model):
     student = models.ForeignKey(Student, models.CASCADE)

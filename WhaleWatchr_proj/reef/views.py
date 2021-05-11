@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 
-from .models import Student, Advisor, Parent, UpdateRequest, ActivityChange, ActivityDetail
+from .models import Student, Advisor, Parent,  ActivityChange, ActivityDetail, UpdateRequest
 from .serializers import *
 
 from datetime import date, timedelta
@@ -154,6 +154,7 @@ def updateRequest_list(request):
             return Response(status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
 @api_view(['GET', 'DELETE'])
 def updateRequest_detail(request, pk):
     try:
@@ -191,9 +192,9 @@ def activityChange_list(request):
         if serializer.is_valid() and Student.objects.get(pk=serializer.validated_data['student'].student_id):
             serializer.save()
             if str(serializer.validated_data['start_date']) in date_range():
-               with connection.cursor() as cursor:
-                    cursor.execute('UPDATE student, reef_activitychange SET student.activity_curr = JSON_SET(student.activity_curr,  CONCAT(CONCAT(\'$."\', CAST((DAYOFWEEK(CURDATE())-2) AS CHAR)), \'"\'), reef_activitychange.activity_type) WHERE reef_activitychange.start_date = CURRENT_DATE() AND reef_activitychange.student_id = student.student_id;')
-                    cursor.execute('UPDATE student, reef_activitychange SET student.activity_base = JSON_SET(student.activity_base,  CONCAT(CONCAT(\'$."\', CAST((DAYOFWEEK(CURDATE())-2) AS CHAR)), \'"\'), reef_activitychange.activity_type) WHERE reef_activitychange.permanent = True AND reef_activitychange.start_date = CURRENT_DATE() AND reef_activitychange.student_id = student.student_id;')
+                with connection.cursor() as cursor:
+                    cursor.execute('UPDATE student, reef_activitychange SET student.activity_curr = JSON_SET(student.activity_curr,  CONCAT(CONCAT(\'$."\', CAST((DAYOFWEEK(CURDATE())-2) AS CHAR)), \'"\'), reef_activitychange.activity_type_id) WHERE reef_activitychange.start_date = CURRENT_DATE() AND reef_activitychange.student_id = student.student_id;')
+                    cursor.execute('UPDATE student, reef_activitychange SET student.activity_base = JSON_SET(student.activity_base,  CONCAT(CONCAT(\'$."\', CAST((DAYOFWEEK(CURDATE())-2) AS CHAR)), \'"\'), reef_activitychange.activity_type_id) WHERE reef_activitychange.permanent = True AND reef_activitychange.start_date = CURRENT_DATE() AND reef_activitychange.student_id = student.student_id;')
             return Response(status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -202,8 +203,8 @@ def activityChange_list(request):
 def activityDetail_list(request):
     ''' This is where you see all activities or post a new activity type '''
     if request.method == 'GET':
-        data = ActivityChange.objects.all()
-        serializer = ActivityChangeSerializer(data, context={'request': request}, many=True)
+        data = ActivityDetail.objects.all()
+        serializer = ActivityDetailSerializer(data, context={'request': request}, many=True)
         return Response(serializer.data)
 
     elif request.method == 'POST':
@@ -214,7 +215,7 @@ def activityDetail_list(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET'])
+@api_view(['GET', 'DELETE'])
 def activityDetail_detail(request, pk):
     ''' Get information about a specific activity '''
     try:
@@ -225,3 +226,7 @@ def activityDetail_detail(request, pk):
     if request.method == 'GET':
         serializer = ActivityDetailSerializer(data, context={'request': request}, many=False)
         return Response(serializer.data)
+
+    elif request.method == 'DELETE':
+        activity.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
