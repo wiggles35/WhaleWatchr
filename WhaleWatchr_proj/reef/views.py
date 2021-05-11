@@ -154,6 +154,21 @@ def updateRequest_list(request):
             return Response(status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@api_view(['GET', 'DELETE'])
+def updateRequest_detail(request, pk):
+    try:
+       updateRequest = UpdateRequestSerializer.objects.get(pk=pk)
+    except UpdateRequestSerializer.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        serializer = UpdateRequestSerializer(data, context={'request': request}, many=False)
+        return Response(serializer.data)
+
+    elif request.method == 'DELETE':
+        updateRequest.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 @api_view(['GET', 'POST'])
 def activityChange_list(request):
@@ -197,6 +212,7 @@ def activityDetail_list(request):
             serializer.save()
             return Response(status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 @api_view(['GET'])
 def activityDetail_detail(request, pk):

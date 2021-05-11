@@ -58,7 +58,7 @@ class ActivityDetail(models.Model):
 class UpdateRequest(models.Model):
     student = models.IntegerField(blank=False, null=False)
     new_activity_id = models.ForeignKey(ActivityDetail, models.CASCADE)
-
+    
 
 class ActivityChange(models.Model):
     student = models.ForeignKey(Student, models.CASCADE)
