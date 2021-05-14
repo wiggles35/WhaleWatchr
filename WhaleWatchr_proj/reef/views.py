@@ -158,7 +158,7 @@ def updateRequest_list(request):
 @api_view(['GET', 'DELETE'])
 def updateRequest_detail(request, pk):
     try:
-       updateRequest = UpdateRequestSerializer.objects.get(pk=pk)
+        updateRequest = UpdateRequestSerializer.objects.get(pk=pk)
     except UpdateRequestSerializer.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
@@ -219,7 +219,7 @@ def activityDetail_list(request):
 def activityDetail_detail(request, pk):
     ''' Get information about a specific activity '''
     try:
-       activity = ActivityDetail.objects.get(pk=pk)
+        activity = ActivityDetail.objects.get(pk=pk)
     except ActivityDetail.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
