@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, TextInput, StyleSheet } from 'react-native'
+import { Text, View, Image, TextInput, StyleSheet } from 'react-native'
 import ActivityIcon from '../components/ActivityIcon'
 import ActivityWeekBar from './ActivityWeekBar'
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -33,7 +33,11 @@ const ParentStudent = ({ student }) => {
         <View style={styles.container}>
             <View style={styles.studName}>
                 <Text style={{padding: 10, fontSize: 40}}>{student.first_name + " " + student.last_name}</Text>
-                <img className="pictures" src={student.imgSrc} style={{height: 150, width: 80}}></img>
+                <Image 
+                    style = {styles.photo}
+                    source = "https://www.sciencenewsforstudents.org/wp-content/uploads/2019/12/1030_two-students-looking-at-tablet-1028x579.jpg"/>
+                {//<img className="pictures" src={student.imgSrc} style={{height: 150, width: 80}}></img>
+                }
             </View>
             <View style={{flex:1}}>
                 <ActivityWeekBar />
@@ -81,7 +85,11 @@ const styles = StyleSheet.create({
     innerActivityContainer: {
         width: "50%",
         height: "50%",
-    }
+    },
+    photo: {
+        width: 80,
+        height: 150,
+      }
 });
 
 export default ParentStudent;

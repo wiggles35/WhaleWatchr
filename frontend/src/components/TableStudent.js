@@ -21,7 +21,9 @@ const TableStudent = ({ studentName, advisorName, parentName, parentEmail, paren
     return (
         <View style={styles.container}>
             <View style={styles.infoWrapper}>
-               <img className="pictures" src={studentName.imgSrc} style={{height: 150, width: 75}}></img>
+                <Image 
+                    style = {styles.photo}
+                    source = "https://www.sciencenewsforstudents.org/wp-content/uploads/2019/12/1030_two-students-looking-at-tablet-1028x579.jpg"/>
             </View>
             <View style={styles.infoWrapper}>
                 <Text style={styles.infoText}>{studentName}</Text>
@@ -80,6 +82,10 @@ const styles = StyleSheet.create({
         display: 'flex', 
         flexDirection: 'column', 
         textAlign: 'center'
+    },
+    photo: {
+        width: 80,
+        height: 150,
     }
 });
 
