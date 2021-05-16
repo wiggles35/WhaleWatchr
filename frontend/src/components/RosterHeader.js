@@ -7,6 +7,9 @@ const RosterHeader = () => {
     return (
         <View style={styles.container}>
             <View style={styles.infoWrapper}>
+               <Text style={styles.headerText}>Picture</Text>
+           </View>
+            <View style={styles.infoWrapper}>
                 <Text style={styles.headerText}>Name</Text>
             </View>
             <View style={styles.infoWrapper}>
