@@ -1,11 +1,27 @@
 import React from 'react';
 import { Text, View, StyleSheet } from 'react-native'
 import ActivityIcon from './ActivityIcon'
+import { downloadImage } from "../commons/services/AWS.js";
+
+const loadImage = function(imageLink, id, fact){
+    downloadImage(imageLink).then( function(data){
+        const buffer = Buffer.from(data.Body)
+        const base64ImageData = buffer.toString('base64');
+        const imgSrc = "data:image/jpg;base64," + base64ImageData;
+        const postObject = {
+            imgSrc: imgSrc,
+            post_id: id,
+            fact: fact
+        }
+        setPosts(posts => [...posts, postObject])
+    })
+ } 
 
 const TeacherStudent = ({ studentName }) => {
     return (
         <View style={styles.container}>
             <View style={styles.infoWrapper}>
+                <img className="pictures" src={studentName.imgSrc} style={{height: 130, width: 75}}></img>
                 <Text style={styles.infoText}>{studentName}</Text>
             </View>
             <View style={styles.infoWrapper}>

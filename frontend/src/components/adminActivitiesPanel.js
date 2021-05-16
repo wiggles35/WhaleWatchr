@@ -4,7 +4,7 @@ import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import ActivityChange from './ActivityChange'
 import { fontSize } from '../constants/whaleStyle'
 
-const AdminActivitiesPanel = ({ actList, setActList }) => {
+const AdminActivitiesPanel = ({ actList, setActList, resetData, setResetData }) => {
 
     return (
         <View style={styles.container}>
@@ -16,10 +16,9 @@ const AdminActivitiesPanel = ({ actList, setActList }) => {
                     
                     return (
                         <ActivityChange 
-                            studentName={item.student_name}
-                            date={item.start_date}
-                            permanent={item.permanent}
-                            actStr={item.act_str}
+                            actObj={item}
+                            resetData={resetData}
+                            setResetData={setResetData}
                             key={item.id}
                         />
                     );

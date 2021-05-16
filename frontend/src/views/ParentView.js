@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Text, View, TextInput, StyleSheet, ScrollView, ActivityIndicator } from 'react-native'
 import ActivityIcon from '../components/ActivityIcon'
 import ParentStudent from '../components/ParentStudent'
+import { downloadImage } from "../commons/services/AWS.js";
+
 
 const ParentView = () => {
     const [isLoading, setIsLoading] = useState(true);

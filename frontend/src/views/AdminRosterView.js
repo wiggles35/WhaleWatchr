@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, TextInput, StyleSheet, ActivityIndicator } from 'react-native'
-import { FlatList, ScrollView } from 'react-native-gesture-handler';
-import TableStudent from '../components/TableStudent';
+import { Text, View, TextInput, StyleSheet, ActivityIndicator, Dimensions } from 'react-native'
 import { radius, colors } from '../constants/whaleStyle';
 import { getAllStudents } from '../controllers/adminController';
 import AdminRosterPanel from '../components/adminRosterPanel';
@@ -13,34 +11,12 @@ const AdminRosterView = () => {
     const [studentsObj, setStudentsObj] = useState([]);
     const [fullDict, setFullDict] = useState({});
     const [actList, setActList] = useState([]);
-
-    // states for left panel control
-    const [isRoster, setIsRoster] = useState(true);
-    const [isActivity, setIsActivity] = useState(false);
-    const [isAdvisor, setIsAdvisor] = useState(false);
+    const [resetData, setResetData] = useState(true);
 
     useEffect(() => {
         getAllStudents(setStudentsObj, setFullDict, setActList);
         setIsLoading(false);
-    }, []);
-
-    const buttons = [
-        {
-            name: "Roster",
-            state: isRoster,
-            set: setIsRoster
-        },
-        {
-            name: "Activity",
-            state: isActivity,
-            set: setIsActivity
-        },
-        {
-            name: "Advisor",
-            state: isAdvisor,
-            set: setIsAdvisor
-        }
-    ]
+    }, [resetData]);
 
     return (
         <View style={styles.mainContainer}>
@@ -65,6 +41,8 @@ const AdminRosterView = () => {
                         <AdminActivitiesPanel 
                             actList={actList}
                             setActList={setActList}
+                            resetData={resetData}
+                            setResetData={setResetData}
                         />
                     </View>
                 )}
@@ -73,6 +51,7 @@ const AdminRosterView = () => {
     );
 }
 
+const windowHeight = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
     mainContainer: {
@@ -81,13 +60,13 @@ const styles = StyleSheet.create({
     },
     leftContainer: {
         paddingTop: 10,
-        height: 700,
+        height: windowHeight,
         flexDirection: "column",
         flex: 7,
     },
     rightContainer: {
         paddingTop: 10,
-        height: 700,
+        height: windowHeight,
         flexDirection: "column",
         flex: 3,
     },

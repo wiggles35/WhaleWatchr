@@ -165,12 +165,12 @@ def updateRequest_list(request):
 @api_view(['GET', 'DELETE'])
 def updateRequest_detail(request, pk):
     try:
-       updateRequest = UpdateRequestSerializer.objects.get(pk=pk)
-    except UpdateRequestSerializer.DoesNotExist:
+        updateRequest = UpdateRequest.objects.get(pk=pk)
+    except UpdateRequest.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
     if request.method == 'GET':
-        serializer = UpdateRequestSerializer(data, context={'request': request}, many=False)
+        serializer = UpdateRequestSerializer(updateRequest, context={'request': request}, many=False)
         return Response(serializer.data)
 
     elif request.method == 'DELETE':
@@ -226,7 +226,7 @@ def activityDetail_list(request):
 def activityDetail_detail(request, pk):
     ''' Get information about a specific activity '''
     try:
-       activity = ActivityDetail.objects.get(pk=pk)
+        activity = ActivityDetail.objects.get(pk=pk)
     except ActivityDetail.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
 

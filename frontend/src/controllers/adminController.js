@@ -1,8 +1,8 @@
-
+import axios from 'axios'
 
 export const getAllStudents = (setStudentsObj, setFullDict, setActList) => {
     const studentsURL = "http://db.cse.nd.edu:5004/api/students/"
-    const activitiesURL = "http://db.cse.nd.edu:5004/api/activityChange/"
+    const activitiesURL = "http://db.cse.nd.edu:5004/api/updateRequest/"
 
     const currDate = new Date();
     const currDay = currDate.getDay() - 1;
@@ -50,7 +50,7 @@ export const getAllStudents = (setStudentsObj, setFullDict, setActList) => {
                     const newActList = json.map((actReq) => {
                         return ({
                             ...actReq,
-                            'act_str': activities[actReq.activity_type],
+                            'act_str': activities[actReq.activityDetail],
                             'student_name': (
                                 fullDict['students'][actReq['student'].toString()]['first_name']
                                 + ' ' + fullDict['students'][actReq['student'].toString()]['last_name']
@@ -63,6 +63,38 @@ export const getAllStudents = (setStudentsObj, setFullDict, setActList) => {
                 .catch((error) => alert(error));
             })
             .catch((error) => alert(error));
+};
+
+export const postActivityChange = (actObj) => {
+
+    const actUrl = "http://db.cse.nd.edu:5004/api/activityChange/";
+
+    console.log(actObj);
+    const sendObj = {
+        "id": actObj.id,
+        "start_date": actObj.start_date,
+        "permanent": actObj.permanent,
+        "student": actObj.student,
+        "activity_type": actObj.activityDetail
+    }
+
+    axios.post(actUrl, sendObj,{headers:{'Content-Type': 'application/json'}})
+        .then((response) => {
+            console.log(response);
+        })
+        .catch((error) => {
+            alert(JSON.stringify(error.response.data))
+        })
+};
+
+export const deleteUpdateRequest = (actId) => {
+    const urUrl = "http://db.cse.nd.edu:5004/api/updateRequest/" + actId.toString();
+
+    axios.delete(urUrl).then((response) => {
+        console.log(response);
+    }).catch((error) => {
+        alert(JSON.stringify(error.response.data))
+    })
 };
 
 export const activities = {

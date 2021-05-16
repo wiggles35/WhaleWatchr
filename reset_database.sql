@@ -1,12 +1,7 @@
-drop table reef_activitychange;
-drop table reef_student;
-drop table reef_advisor;
-drop table reef_parent;
-drop table reef_transport_logs;
-drop table reef_updaterequest;
-drop table student;
-drop table parent;
-drop table advisor;
+/*
+truncate table student;
+truncate table parent;
+truncate table advisor;
 
 
 create table advisor(
@@ -48,6 +43,7 @@ create table student(
 	FOREIGN KEY (advisor_id)
 	references advisor(advisor_id)
 );
+*/
 
 insert into advisor(first_name, last_name, grade)
 	select distinct advisor_first_name, advisor_last_name, grade
@@ -67,3 +63,6 @@ insert into student(first_name, last_name, parent_id, advisor_id, grade)
 	and csv_data.advisor_first_name = advisor.first_name
 	and csv_data.grade = advisor.grade
 ;
+
+update student set activity_curr = '{"0": 0, "1": 0, "2": 0, "3": 0, "4": 2}' where student_id > 0;
+update student set activity_base = '{"0": 0, "1": 0, "2": 0, "3": 0, "4": 2}' where student_id > 0;
