@@ -21,7 +21,9 @@ const ParentStudent = ({ student }) => {
                 <CalendarPicker 
                     weekdays={days}
                     onDateChange={setDate}
-
+                    todayBackgroundColor="#f2e6ff"
+                    selectedDayColor="#7300e6"
+                    selectedDayTextColor="#FFFFFF"
                 />
             </View>
         </View>
