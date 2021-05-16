@@ -6,6 +6,28 @@ import { radius, colors } from '../constants/whaleStyle';
 import RosterHeader from './RosterHeader';
 
 const AdminRosterPanel = ({ studentsObj }) => {
+    // states to control which organization to show
+    const [isRoster, setIsRoster] = useState(true);
+    const [isActivity, setIsActivity] = useState(false);
+    const [isAdvisor, setIsAdvisor] = useState(false);
+
+    const buttons = [
+        {
+            name: "Roster",
+            state: isRoster,
+            set: setIsRoster
+        },
+        {
+            name: "Activity",
+            state: isActivity,
+            set: setIsActivity
+        },
+        {
+            name: "Advisor",
+            state: isAdvisor,
+            set: setIsAdvisor
+        }
+    ]
 
     return (
         <View style={styles.mainContainer}>
