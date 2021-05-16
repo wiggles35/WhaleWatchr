@@ -25,7 +25,7 @@ export function PictureUpload(){
 
         uploadImage(selectedFile).then( function(data){
             axios.post(
-               url,
+                url,
                 {"user":userID,"image_link": data.Key,"fact": fact},
                 {
                     headers:{'Content-Type': 'application/json'}
@@ -47,7 +47,7 @@ export function PictureUpload(){
                     <p>Filename: {selectedFile.name}</p>
                     {/*<p>Filetype: {selectedFile.type}</p>
                     <p>Size in bytes: {selectedFile.size}</p>
-                     <p>
+                    <p>
                         lastModifiedDate:{' '}
                         {selectedFile.lastModifiedDate.toLocaleDateString()}
                     </p> */}

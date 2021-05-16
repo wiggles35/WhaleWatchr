@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Text, View, TextInput, StyleSheet } from 'react-native'
 import ActivityIcon from '../components/ActivityIcon'
 import ActivityWeekBar from './ActivityWeekBar'
-import CalendarPicker from 'react-native-calendar-datepicker';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 import PictureUpload from '../commons/services/picUpload';
 
@@ -23,6 +23,11 @@ const loadImage = function(imageLink, id, fact){
 const ParentStudent = ({ student }) => {
     const [date, setDate] = useState('');
 
+    const onChange = (event, selectedDate) => {
+        const currentDate = selectedDate || date;
+        setDate(currentDate);
+    };
+
     const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
     return (
         <View style={styles.container}>
@@ -34,12 +39,13 @@ const ParentStudent = ({ student }) => {
                 <ActivityWeekBar />
             </View>
             <View style={{flex:4}}>
-                <CalendarPicker 
-                    weekdays={days}
-                    onDateChange={setDate}
-                    todayBackgroundColor="#f2e6ff"
-                    selectedDayColor="#7300e6"
-                    selectedDayTextColor="#FFFFFF"
+                <DateTimePicker 
+                    testID="dateTimePicker"
+                    value={date}
+                    mode={'date'}
+                    is24Hour={true}
+                    display="default"
+                    onChange={onChange}
                 />
                 <PictureUpload />
             </View>
