@@ -45,6 +45,7 @@ class Student(models.Model):
     activity_curr = models.JSONField(default=default_dict, blank=True, null=True)
     activity_base = models.JSONField(default=default_dict, blank=True, null=True)
     route_no = models.IntegerField(blank=True, null=True)
+    image = models.CharField(max_length=255, blank=True, null=True)
 
 
     class Meta:

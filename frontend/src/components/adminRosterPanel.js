@@ -4,6 +4,7 @@ import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import TableStudent from '../components/TableStudent';
 import { radius, colors } from '../constants/whaleStyle';
 import RosterHeader from './RosterHeader';
+import {downloadImage} from '../commons/services/AWS.js';
 
 const AdminRosterPanel = ({ studentsObj }) => {
     // states to control which organization to show
@@ -28,6 +29,21 @@ const AdminRosterPanel = ({ studentsObj }) => {
             set: setIsAdvisor
         }
     ]
+
+    const loadImage = function(imageLink, id, fact){
+        downloadImage(imageLink).then( function(data){
+            const buffer = Buffer.from(data.Body)
+            const base64ImageData = buffer.toString('base64');
+            const imgSrc = "data:image/jpg;base64," + base64ImageData;
+            const postObject = {
+                imgSrc: imgSrc,
+                post_id: id,
+                fact: fact
+            }
+            setPosts(posts => [...posts, postObject])
+        })
+     }
+     
 
     return (
         <View style={styles.mainContainer}>
