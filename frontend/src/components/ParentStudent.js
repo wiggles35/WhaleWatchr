@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Text, View, Image, TextInput, StyleSheet } from 'react-native'
 import ActivityIcon from '../components/ActivityIcon'
 import ActivityWeekBar from './ActivityWeekBar'
-import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 import PictureUpload from '../commons/services/picUpload';
 
@@ -32,25 +31,15 @@ const ParentStudent = ({ student }) => {
     return (
         <View style={styles.container}>
             <View style={styles.studName}>
-                <Text style={{padding: 10, fontSize: 40}}>{student.first_name + " " + student.last_name}</Text>
                 <Image 
                     style = {styles.photo}
                     source = "https://www.sciencenewsforstudents.org/wp-content/uploads/2019/12/1030_two-students-looking-at-tablet-1028x579.jpg"/>
-                {//<img className="pictures" src={student.imgSrc} style={{height: 150, width: 80}}></img>
-                }
+                    <Text style={{padding: 10, fontSize: 40}}>{student.first_name + " " + student.last_name}</Text>
             </View>
             <View style={{flex:1}}>
                 <ActivityWeekBar />
             </View>
             <View style={{flex:4}}>
-                <DateTimePicker 
-                    testID="dateTimePicker"
-                    value={date}
-                    mode={'date'}
-                    is24Hour={true}
-                    display="default"
-                    onChange={onChange}
-                />
                 <PictureUpload />
             </View>
         </View>
@@ -67,6 +56,7 @@ const styles = StyleSheet.create({
     studName: {
         alignItems: "center",
         justifyContent: "center",
+        flexDirection: "row",
         flex: 1,
 
     },

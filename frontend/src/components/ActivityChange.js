@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         width: '99%',
         justifyContent: "center",
-        radius: radius.m,
+        borderRadius: radius.m,
         borderBottomWidth: 2,
         borderBottomColor: colors.formAccent,
         shadowColor: "#000",
