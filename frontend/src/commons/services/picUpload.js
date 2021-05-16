@@ -16,9 +16,9 @@ export function PictureUpload(){
     };
 
 
-    const changeFactHandler = (event) => {
+/*    const changeFactHandler = (event) => {
         setFact(event.target.value);
-    };
+    }; */
 
     const handleSubmission = (event) => {
         event.preventDefault();
@@ -40,26 +40,30 @@ export function PictureUpload(){
     };
 
     return (
-        <form onSubmit={handleSubmission}>
-            <input id="file" type="file" name="file" onChange={changeHandler} className="inputfile" required/>
-            <label for="file">Upload a picture</label>
+        // <form onSubmit={handleSubmission}>
+        <View style = {styles.container}>
+            <Button
+                title="Upload a picture"
+                onPress={changeHandler}
+                style={styles.button}
+            />
+            {/* <input id="file" type="file" name="file" onChange={changeHandler} className="inputfile" required/>
+            <label for="file">Upload a picture</label> */}
             {isFilePicked ? (
-                <div>
-                    <p>Filename: {selectedFile.name}</p>
-                    {/*<p>Filetype: {selectedFile.type}</p>
-                    <p>Size in bytes: {selectedFile.size}</p>
-                     <p>
-                        lastModifiedDate:{' '}
-                        {selectedFile.lastModifiedDate.toLocaleDateString()}
-                    </p> */}
-                </div>
+                <View>
+                    <Text>Filename: {selectedFile.name}</Text>
+                </View>
             ) : (
-                <p>Select a picture to show details</p>
+                <Text>Select a picture to show details</Text>
             )}
-            <div>
-                <button type="submit" className="button" onSubmit={handleSubmission}>Submit</button>
-            </div>
-        </form>
+            <View>
+                <Button
+                    title="Submit"
+                    onPress={handleSubmission}
+                    style={styles.button}
+                />
+            </View>
+        </View>
     )
 }
 
@@ -76,13 +80,16 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         paddingRight: 5,
         paddingLeft: 5,
+    },
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'center',
     },    
     button: {
-        color: "skyblue",
-        fontSize: 15,
-        border: "black",
-        font: "Helvetica Neue",
-        borderRadius: 5,
+        padding: 4,
+        margin: 4,
+        flex: 1,
     },
 
     descEntry:{

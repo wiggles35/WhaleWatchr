@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, StyleSheet } from 'react-native'
+import { Text, View, StyleSheet, Image } from 'react-native'
 import ActivityIcon from './ActivityIcon'
 import { downloadImage } from "../commons/services/AWS.js";
 
@@ -21,7 +21,9 @@ const TeacherStudent = ({ studentName }) => {
     return (
         <View style={styles.container}>
             <View style={styles.infoWrapper}>
-                <img className="pictures" src={studentName.imgSrc} style={{height: 130, width: 75}}></img>
+                <Image 
+                    style = {styles.photo}
+                    source = "https://www.sciencenewsforstudents.org/wp-content/uploads/2019/12/1030_two-students-looking-at-tablet-1028x579.jpg"/>
                 <Text style={styles.infoText}>{studentName}</Text>
             </View>
             <View style={styles.infoWrapper}>
@@ -58,6 +60,10 @@ const styles = StyleSheet.create({
         justifyContent: "center", 
         alignItems: "center",
         //backgroundColor: 'red'
+    },
+    photo: {
+        width: 80,
+        height: 150,
     }
 });
 
