@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
 import axios from 'axios';
-import "./picUpload.css";
+// import "./picUpload.css";
 import {uploadImage} from "./AWS";
+import { Text, View, Button, StyleSheet } from 'react-native'
 // import { useHistory } from "react-router-dom"
 
 export function PictureUpload(){
@@ -59,7 +60,34 @@ export function PictureUpload(){
                 <button type="submit" className="button" onSubmit={handleSubmission}>Submit</button>
             </div>
         </form>
-    );
+    )
 }
+
+const styles = StyleSheet.create({
+    inputfile: {
+        width: 0.1,
+        height: 0.1,
+        opacity: 0,
+        justifyContent: "center",
+        fontSize: 15,
+        color: "skyblue",
+        border: "black",
+        font: "Helvetica Neue",
+        borderRadius: 5,
+        paddingRight: 5,
+        paddingLeft: 5,
+    },    
+    button: {
+        color: "skyblue",
+        fontSize: 15,
+        border: "black",
+        font: "Helvetica Neue",
+        borderRadius: 5,
+    },
+
+    descEntry:{
+       fontSize: 20,
+    }
+    });
 
 export default PictureUpload;
