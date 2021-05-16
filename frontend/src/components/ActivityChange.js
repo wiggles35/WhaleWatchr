@@ -2,10 +2,19 @@ import React from 'react'
 import { Text, View, Button, StyleSheet } from 'react-native'
 import { radius, colors } from '../constants/whaleStyle'
 import ActivityIcon from './ActivityIcon'
+import { postActivityChange, deleteUpdateRequest } from '../controllers/adminController'
 
-const ActivityChange = ({ studentName, date, permanent, actStr }) => {
+const ActivityChange = ({ actObj, resetData, setResetData }) => {
 
     const handleAccept = () => {
+        console.log(actObj);
+        //First, post a new activityChange
+        postActivityChange(actObj);
+        //Now, delete the updateRequst
+        deleteUpdateRequest(actObj.id);
+        //Reload Data to reflect new update request list
+        setResetData(!resetData);
+
         console.log('Accepted');
     };
 
@@ -17,26 +26,19 @@ const ActivityChange = ({ studentName, date, permanent, actStr }) => {
         <View style={styles.container}>
             <View style={styles.leftText}>
                 <View>
-                    <Text>{studentName}</Text>
+                    <Text>{actObj.student_name}</Text>
                 </View>
                 <View>
-                    <Text>{date}</Text>
+                    <Text>{actObj.start_date}</Text>
                 </View>
                 <View>
-                    <Text>{permanent ? 'Permanent' : 'Single-Day'}</Text>
+                    <Text>{actObj.permanent ? 'Permanent' : 'Single-Day'}</Text>
                 </View>
             </View>
             <View style={styles.iconContainer}>
                 <View style={{height: "70%", width: "70%"}}>
                     <ActivityIcon 
-                        actType={
-                                (actStr === 'Walk' || actStr === 'Parent Pickup') ? 
-                                (actStr) : ('Bus')
-                            } 
-                            busNum={
-                                (actStr === 'Walk' || actStr === 'Parent Pickup') ? 
-                                (null) : (actStr.split(' ')[1])
-                            }
+                        actType={actObj.act_str} 
                     />
                 </View>
             </View>
