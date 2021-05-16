@@ -11,14 +11,7 @@ const TableStudent = ({ studentName, advisorName, parentName, parentEmail, paren
             <View style={styles.infoWrapper}>
                 <View style={{width: "50%", height: "80%"}}>
                     <ActivityIcon 
-                        actType={
-                            (actStr === 'Walk' || actStr === 'Parent Pickup') ? 
-                            (actStr) : ('Bus')
-                        } 
-                        busNum={
-                            (actStr === 'Walk' || actStr === 'Parent Pickup') ? 
-                            (null) : (actStr.split(' ')[1])
-                        }
+                        actType={actStr}
                     />
                 </View>
             </View>
