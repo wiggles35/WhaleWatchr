@@ -5,17 +5,19 @@ import { FlatList } from 'react-native-gesture-handler';
 //names is a list of the buttons needed
 const panelSelectionBar = ({ buttons }) => {
 
-    const renderItem = ({ item }) => {
-        <TouchableOpacity>
-            <View>
-
-            </View>
-        </TouchableOpacity>
-    };
-
     return (
         <View>
-            <FlatList />
+            {buttons.map(item => {
+                return (
+                    <View>
+                        <TouchableOpacity >
+                            <View>
+                                <Text></Text>
+                            </View>
+                        </TouchableOpacity>
+                    </View>
+                );
+            })}
         </View>
     );
 };
