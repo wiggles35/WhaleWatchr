@@ -1,11 +1,10 @@
 import React from 'react';
 import { Text, View, StyleSheet } from 'react-native'
 
-const ActivityIcon = ({ actType, busNum }) => {
+const ActivityIcon = ({ actType }) => {
     return (
         <View style={styles.container}>
             <Text style={styles.innerText}>{actType}</Text>
-            {busNum && <Text style={styles.innerText}>{busNum}</Text>}
         </View>
     );
 }
