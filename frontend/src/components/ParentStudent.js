@@ -21,7 +21,7 @@ const loadImage = function(imageLink, id, fact){
  } 
 
 const ParentStudent = ({ student }) => {
-    const [date, setDate] = useState('');
+    const [date, setDate] = useState(new Date());
 
     const onChange = (event, selectedDate) => {
         const currentDate = selectedDate || date;
