@@ -24,7 +24,7 @@ export function PictureUpload(){
         var url = 'http://db.cse.nd.edu:5004/api/students/1'
 
         uploadImage(selectedFile).then( function(data){
-            axios.post(
+            axios.put(
                url,
                 {"user":userID,"image_link": data.Key,"fact": fact},
                 {
