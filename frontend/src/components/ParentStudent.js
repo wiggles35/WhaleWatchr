@@ -79,7 +79,6 @@ const styles = StyleSheet.create({
     photo: {
         width: 80,
         height: 150,
-      }
 });
 
 export default ParentStudent;
