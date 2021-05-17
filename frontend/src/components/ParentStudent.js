@@ -37,7 +37,7 @@ const ParentStudent = ({ student }) => {
             <View style={styles.studName}>
                 <Image
                 style = {styles.photo}
-                source = {"https://whalewatchr-pics.s3.us-east-2.amazonaws.com/" + student.first_name + " " + student.last_name + ".jpg"}/>
+                source = {{uri: "https://whalewatchr-pics.s3.us-east-2.amazonaws.com/" + student.first_name + " " + student.last_name + ".jpg"}}/>
             </View>
             <View style={{flex:1}}>
                 <ActivityWeekBar />
@@ -49,8 +49,6 @@ const ParentStudent = ({ student }) => {
                     title="date"
                     placeholder="yyyy/mm/dd"
                 />
-            </View>
-            <View style = {styles.inputWidth}>
                 <FormInput 
                     data={actStr}
                     setData={setActivity}
@@ -98,7 +96,6 @@ const styles = StyleSheet.create({
     },
     inputWidth: {
         flex: 1,
-        justifyContent: "center",
         width: "60%",
     }
 });
