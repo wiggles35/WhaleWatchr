@@ -84,8 +84,8 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     photo: {
-        width: 80,
-        height: 150,
+        width: 70,
+        height: 90,
     }
 });
 
