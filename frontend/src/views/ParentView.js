@@ -5,11 +5,16 @@ import ParentStudent from '../components/ParentStudent'
 import { downloadImage } from "../commons/services/AWS.js";
 
 
-const ParentView = () => {
+const ParentView = ({ route, navigation }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [studentsObj, setStudentsObj] = useState([]);
+    const [activitiesList, setActivitiesList] = useState([]);
 
-    const parentStudentsURL = 'http://db.cse.nd.edu:5004/api/parents/1'
+    const { parentId } = route.params;
+    console.log(parentId);
+
+    const parentStudentsURL = 'http://db.cse.nd.edu:5004/api/parents/' + parentId;
+    const activitiesURL = 'http://db.cse.nd.edu:5004/api/activityDetail/'
 
     useEffect(() => {
         fetch(parentStudentsURL)
@@ -19,6 +24,14 @@ const ParentView = () => {
                 setIsLoading(false);
             })
             .catch((error) => alert(error))
+
+        fetch(activitiesURL)
+            .then((response) => response.json())
+            .then((json) => {
+                console.log(json);
+                setActivitiesList(json);
+            })
+            .catch(error => alert(error))
     }, []);
 
     return (
@@ -33,6 +46,7 @@ const ParentView = () => {
                                         <ParentStudent 
                                             student={item}
                                             key={item.student_id}
+                                            actList={activitiesList}
                                         />
                                     )
                                 })}

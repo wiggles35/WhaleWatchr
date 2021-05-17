@@ -4,11 +4,12 @@ import ActivityIcon from '../components/ActivityIcon'
 import ParentStudent from '../components/ParentStudent'
 import TeacherStudent from '../components/TeacherStudent'
 
-const AdvisorView = () => {
+const AdvisorView = ({route, navigation}) => {
     const [isLoading, setIsLoading] = useState(true);
     const [studentsObj, setStudentsObj] = useState([]);
 
-    const teacherStudentsURL = 'http://db.cse.nd.edu:5004/api/advisors/1'
+    const { advisorId } = route.params;
+    const teacherStudentsURL = 'http://db.cse.nd.edu:5004/api/advisors/' + advisorId;
 
     useEffect(() => {
         fetch(teacherStudentsURL)

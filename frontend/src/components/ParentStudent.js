@@ -3,6 +3,7 @@ import { Text, View, Image, TextInput, StyleSheet } from 'react-native'
 import ActivityIcon from '../components/ActivityIcon'
 import ActivityWeekBar from './ActivityWeekBar'
 import moment from 'moment';
+import FormInput from '../components/FormInput';
 
 const loadImage = function(imageLink, id, fact){
     downloadImage(imageLink).then( function(data){
@@ -18,7 +19,9 @@ const loadImage = function(imageLink, id, fact){
     })
  } 
 
-const ParentStudent = ({ student }) => {
+const ParentStudent = ({ student, actList }) => {
+    const [permanent, setPermanent] = useState(false);
+
     const [date, setDate] = useState(new Date());
 
     const onChange = (event, selectedDate) => {
@@ -26,19 +29,24 @@ const ParentStudent = ({ student }) => {
         setDate(currentDate);
     };
 
-    const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
     return (
         <View style={styles.container}>
             <View style={styles.studName}>
-                    <Text style={{padding: 10, fontSize: 40}}>{student.first_name + " " + student.last_name}</Text>
-            </View>
-            <View style={styles.studName}>
                 <Image
-                style = {styles.photo}
-                source = "https://www.sciencenewsforstudents.org/wp-content/uploads/2019/12/1030_two-students-looking-at-tablet-1028x579.jpg"/>
+                    style={styles.photo}
+                    source={{uri: "https://www.sciencenewsforstudents.org/wp-content/uploads/2019/12/1030_two-students-looking-at-tablet-1028x579.jpg"}}
+                />
+                <Text style={{padding: 10, fontSize: 40}}>{student.first_name + " " + student.last_name}</Text>
             </View>
-            <View style={{flex:1}}>
+            <View style={styles.weekContainer}>
                 <ActivityWeekBar />
+            </View>
+            <View style={styles.actForm}>
+                <View>
+                    <FormInput 
+
+                    />
+                </View>
             </View>
         </View>
     );
@@ -50,6 +58,17 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: "column",
 
+    },
+    weekContainer: {
+        flex: 1,
+        padding: 10,
+    },
+    actForm: {
+        flex: 4,
+        padding: 10,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
     },
     studName: {
         alignItems: "center",
@@ -77,6 +96,7 @@ const styles = StyleSheet.create({
     photo: {
         width: 80,
         height: 150,
+    }
 });
 
 export default ParentStudent;
