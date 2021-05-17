@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, StyleSheet } from 'react-native'
+import { Text, View, StyleSheet, Image } from 'react-native'
 import ActivityIcon from './ActivityIcon'
 import { downloadImage } from "../commons/services/AWS.js";
 
@@ -21,7 +21,7 @@ const TableStudent = ({ studentName, advisorName, parentName, parentEmail, paren
     return (
         <View style={styles.container}>
             <View style={styles.infoWrapper}>
-                <Image 
+                <Image //CHANGE 
                     style = {styles.photo}
                     source = "https://www.sciencenewsforstudents.org/wp-content/uploads/2019/12/1030_two-students-looking-at-tablet-1028x579.jpg"/>
             </View>

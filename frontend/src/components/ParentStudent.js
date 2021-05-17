@@ -3,7 +3,6 @@ import { Text, View, Image, TextInput, StyleSheet } from 'react-native'
 import ActivityIcon from '../components/ActivityIcon'
 import ActivityWeekBar from './ActivityWeekBar'
 import moment from 'moment';
-import PictureUpload from '../commons/services/picUpload';
 
 const loadImage = function(imageLink, id, fact){
     downloadImage(imageLink).then( function(data){
@@ -31,16 +30,15 @@ const ParentStudent = ({ student }) => {
     return (
         <View style={styles.container}>
             <View style={styles.studName}>
-                <Image 
-                    style = {styles.photo}
-                    source = "https://www.sciencenewsforstudents.org/wp-content/uploads/2019/12/1030_two-students-looking-at-tablet-1028x579.jpg"/>
                     <Text style={{padding: 10, fontSize: 40}}>{student.first_name + " " + student.last_name}</Text>
+            </View>
+            <View style={styles.studName}>
+                <Image
+                style = {styles.photo}
+                source = "https://www.sciencenewsforstudents.org/wp-content/uploads/2019/12/1030_two-students-looking-at-tablet-1028x579.jpg"/>
             </View>
             <View style={{flex:1}}>
                 <ActivityWeekBar />
-            </View>
-            <View style={{flex:4}}>
-                <PictureUpload />
             </View>
         </View>
     );
