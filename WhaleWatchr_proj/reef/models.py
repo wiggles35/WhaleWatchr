@@ -31,6 +31,11 @@ class Parent(models.Model):
     class Meta:
         db_table = 'parent'
 
+class Admin(models.Model):
+    first_name = models.CharField(max_length=20, blank=True, null=True)
+    last_name = models.CharField(max_length=20, blank=True, null=True)
+    password = models.CharField(max_length=20, blank=False, null=False, default='password')
+
 
 class Student(models.Model):
 

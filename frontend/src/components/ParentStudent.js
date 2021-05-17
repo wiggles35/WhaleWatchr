@@ -19,7 +19,9 @@ const loadImage = function(imageLink, id, fact){
     })
  } 
 
-const ParentStudent = ({ student }) => {
+const ParentStudent = ({ student, actList }) => {
+    const [permanent, setPermanent] = useState(false);
+
     const [date, setDate] = useState(new Date());
     const [actStr, setActivity] = useState([]);
 
@@ -28,18 +30,14 @@ const ParentStudent = ({ student }) => {
         setDate(currentDate);
     };
 
-    const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
     return (
         <View style={styles.container}>
-            <View style={styles.studName}>
-                    <Text style={{padding: 10, fontSize: 40}}>{student.first_name + " " + student.last_name}</Text>
-            </View>
-            <View style={styles.studName}>
+            <View style={styles.infoWrapper}>
                 <Image
                 style = {styles.photo}
                 source = {{uri: "https://whalewatchr-pics.s3.us-east-2.amazonaws.com/" + student.first_name + " " + student.last_name + ".jpg"}}/>
             </View>
-            <View style={{flex:1}}>
+            <View style={styles.weekContainer}>
                 <ActivityWeekBar />
             </View>
             <View style={styles.inputWidth}>
@@ -67,6 +65,17 @@ const styles = StyleSheet.create({
         flexDirection: "column",
 
     },
+    weekContainer: {
+        flex: 1,
+        padding: 10,
+    },
+    actForm: {
+        flex: 4,
+        padding: 10,
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+    },
     studName: {
         alignItems: "center",
         justifyContent: "center",
@@ -89,6 +98,11 @@ const styles = StyleSheet.create({
     innerActivityContainer: {
         width: "50%",
         height: "50%",
+    },
+    infoWrapper: {
+        flex:1,
+        justifyContent: "ceenter",
+        alignItems: "center",
     },
     photo: {
         width: 80,
