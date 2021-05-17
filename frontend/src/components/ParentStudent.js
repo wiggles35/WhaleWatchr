@@ -3,6 +3,7 @@ import { Text, View, Image, TextInput, StyleSheet } from 'react-native'
 import ActivityIcon from '../components/ActivityIcon'
 import ActivityWeekBar from './ActivityWeekBar'
 import moment from 'moment';
+import FormInput from '../components/FormInput'
 
 const loadImage = function(imageLink, id, fact){
     downloadImage(imageLink).then( function(data){
@@ -20,6 +21,7 @@ const loadImage = function(imageLink, id, fact){
 
 const ParentStudent = ({ student }) => {
     const [date, setDate] = useState(new Date());
+    const [actStr, setActivity] = useState([]);
 
     const onChange = (event, selectedDate) => {
         const currentDate = selectedDate || date;
@@ -40,6 +42,22 @@ const ParentStudent = ({ student }) => {
             <View style={{flex:1}}>
                 <ActivityWeekBar />
             </View>
+            <View style={styles.inputWidth}>
+                <FormInput 
+                    data={date}
+                    setData={setDate} 
+                    title="date"
+                    placeholder="yyyy/mm/dd"
+                />
+            </View>
+            <View style = {styles.inputWidth}>
+                <FormInput 
+                    data={actStr}
+                    setData={setActivity}
+                    title="Activity Title"
+                    placeholder="Activity Title"
+             />
+             </View>
         </View>
     );
 }
@@ -77,6 +95,12 @@ const styles = StyleSheet.create({
     photo: {
         width: 80,
         height: 150,
+    },
+    inputWidth: {
+        flex: 1,
+        justifyContent: "center",
+        width: "60%",
+    }
 });
 
 export default ParentStudent;
