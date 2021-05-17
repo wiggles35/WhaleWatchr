@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Student, Advisor, Parent,  ActivityChange, ActivityDetail, UpdateRequest
+from .models import Student, Advisor, Parent,  ActivityChange, ActivityDetail, UpdateRequest, Admin
 
 class StudentSerializer(serializers.ModelSerializer):
 
@@ -39,3 +39,9 @@ class LoginSerializer(serializers.Serializer):
     first_name = serializers.CharField(required=True)
     last_name = serializers.CharField(required=True)
     password = serializers.CharField(required=True)
+
+class AdminSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Admin
+        fields = '__all__'
+

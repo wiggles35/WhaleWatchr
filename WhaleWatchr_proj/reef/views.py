@@ -4,11 +4,26 @@ from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework import status
 
-from .models import Student, Advisor, Parent,  ActivityChange, ActivityDetail, UpdateRequest
+from .models import Student, Advisor, Parent,  ActivityChange, ActivityDetail, UpdateRequest, Admin
 from .serializers import *
 
 from datetime import date, timedelta
 from django.db import connection
+
+@api_view(['GET','POST'])
+def admin_list(request):
+    if request.method == 'GET':
+        data = Admin.objects.all()
+        serializer = AdminSerializer(data, context={'request': request}, many=True)
+        return Response(serializer.data)
+    elif request.method == 'POST':
+        ''' This creates an admin'''
+        serializer = AdminSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(status=status.HTTP_201_CREATED)
+            
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET', 'POST'])
 def students_list(request):
@@ -271,5 +286,14 @@ def login(request):
                 json_data = {"user_type": "parent", "user_id": parent_id}
                 return JsonResponse(json_data, status=status.HTTP_200_OK)
     except IndexError:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+        try:
+            serializer = LoginSerializer(data=request.data)
+            if serializer.is_valid():
+                with connection.cursor() as cursor:
+                    cursor.execute(f'SELECT id FROM reef_admin WHERE first_name=\"{serializer.validated_data["first_name"]}\" AND last_name=\"{serializer.validated_data["last_name"]}\" AND password=\"{serializer.validated_data["password"]}\" LIMIT 1')
+                    admin_id = cursor.fetchall()[0][0]
+                    json_data = {"user_type": "admin", "user_id": admin_id}
+                    return JsonResponse(json_data, status=status.HTTP_200_OK)
+        except IndexError:
+            return Response(status=status.HTTP_404_NOT_FOUND)
     return Response(status=status.HTTP_404_NOT_FOUND)
