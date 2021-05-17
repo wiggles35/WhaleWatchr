@@ -11,6 +11,7 @@ class Advisor(models.Model):
     password = models.CharField(max_length=30, blank=True, null=True)
     grade = models.CharField(max_length=3, blank=True, null=True)
     room_number = models.CharField(max_length=10, blank=True, null=True)
+    password = models.CharField(max_length=255, blank=False, null=False, default='password')
 
     class Meta:
         db_table = 'advisor'
@@ -25,6 +26,7 @@ class Parent(models.Model):
     password = models.CharField(max_length=30, blank=True, null=True)
     address = models.CharField(max_length=50, blank=True, null=True)
     phone_number = models.CharField(max_length=15, blank=True, null=True)
+    password = models.CharField(max_length=255, blank=False, null=False, default='password')
 
     class Meta:
         db_table = 'parent'
@@ -46,6 +48,7 @@ class Student(models.Model):
     activity_base = models.JSONField(default=default_dict, blank=True, null=True)
     route_no = models.IntegerField(blank=True, null=True)
     image = models.CharField(max_length=255, blank=True, null=True)
+    password = models.CharField(max_length=255, blank=False, null=False, default='password')
 
 
     class Meta:

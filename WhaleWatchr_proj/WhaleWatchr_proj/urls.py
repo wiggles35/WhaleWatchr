@@ -32,5 +32,6 @@ urlpatterns = [
     re_path(r'api/activityDetail/([0-9]+)$', views.activityDetail_detail),
     re_path(r'api/updateRequest/$', views.updateRequest_list),
     re_path(r'api/updateRequest/([0-9]+)$', views.updateRequest_detail),
+    re_path(r'api/login/$', views.login),
 
 ]

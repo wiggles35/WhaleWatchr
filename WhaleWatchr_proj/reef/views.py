@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from rest_framework.response import Response
+from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework import status
 
@@ -237,3 +238,36 @@ def activityDetail_detail(request, pk):
     elif request.method == 'DELETE':
         activity.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['POST'])
+def login(request):
+    ''' This is how you login '''
+    try:
+        serializer = LoginSerializer(data=request.data)
+        if serializer.is_valid():
+            print('here')
+            first, last = serializer.validated_data['first_and_last'].split("_")
+            student = Student.objects.get(first_name=first, last_name=last, password=serializer.validated_data['password'])
+            json_data = {"user_type": "student", "user_id": student.student_id}
+            return JsonResponse(json_data, status=status.HTTP_200_OK)
+    except Student.DoesNotExist:
+        try:
+            serializer = LoginSerializer(data=request.data)
+            if serializer.is_valid():
+                first, last = serializer.validated_data['first_and_last'].split("_")
+                advisor = Advisor.objects.get(first_name=first, last_name=last, password=serializer.validated_data['password'])
+                json_data = {"user_type": "advisor", "user_id": advisor.advisor_id}
+                return JsonResponse(json_data, status=status.HTTP_200_OK)
+        except Advisor.DoesNotExist:
+            pass
+    try:
+        serializer = LoginSerializer(data=request.data)
+        if serializer.is_valid():
+            first, last = serializer.validated_data['first_and_last'].split("_")
+            parent = Parent.objects.get(first_name=first, last_name=last, password=serializer.validated_data['password'])
+            json_data = {"user_type": "parent", "user_id": parent.parent_id}
+            return JsonResponse(json_data, status=status.HTTP_200_OK)
+    except Parent.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    return Response(status=status.HTTP_404_NOT_FOUND)
