@@ -35,7 +35,7 @@ const ParentStudent = ({ student }) => {
             <View style={styles.studName}>
                 <Image
                 style = {styles.photo}
-                source = "https://www.sciencenewsforstudents.org/wp-content/uploads/2019/12/1030_two-students-looking-at-tablet-1028x579.jpg"/>
+                source = {"https://whalewatchr-pics.s3.us-east-2.amazonaws.com/" + student.first_name + " " + student.last_name + ".jpg"}/>
             </View>
             <View style={{flex:1}}>
                 <ActivityWeekBar />

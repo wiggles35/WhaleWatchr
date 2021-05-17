@@ -23,7 +23,7 @@ const TeacherStudent = ({ studentName }) => {
             <View style={styles.infoWrapper}>
                 <Image //CHANGE
                     style = {styles.photo}
-                    source = "https://www.sciencenewsforstudents.org/wp-content/uploads/2019/12/1030_two-students-looking-at-tablet-1028x579.jpg"/>
+                    source = {"https://whalewatchr-pics.s3.us-east-2.amazonaws.com/"+studentName+".jpg"}/>            
             </View>
             <View style={styles.infoWrapper}>
                 <Text style={styles.infoText}>{studentName}</Text>

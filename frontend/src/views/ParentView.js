@@ -9,7 +9,7 @@ const ParentView = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [studentsObj, setStudentsObj] = useState([]);
 
-    const parentStudentsURL = 'http://db.cse.nd.edu:5004/api/parents/1'
+    const parentStudentsURL = 'http://db.cse.nd.edu:5004/api/parents/200'
 
     useEffect(() => {
         fetch(parentStudentsURL)
