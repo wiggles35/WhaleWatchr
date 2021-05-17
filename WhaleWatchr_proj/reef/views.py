@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from rest_framework.response import Response
+from django.http import JsonResponse
 from rest_framework.decorators import api_view
 from rest_framework import status
 
@@ -237,3 +238,38 @@ def activityDetail_detail(request, pk):
     elif request.method == 'DELETE':
         activity.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['POST'])
+def login(request):
+    ''' This is how you login '''
+    try:
+        serializer = LoginSerializer(data=request.data)
+        if serializer.is_valid():
+            with connection.cursor() as cursor:
+                cursor.execute(f'SELECT student_id FROM student WHERE student.first_name=\"{serializer.validated_data["first_name"]}\" AND last_name=\"{serializer.validated_data["last_name"]}\" AND password=\"{serializer.validated_data["password"]}\" LIMIT 1')
+                student_id = cursor.fetchall()[0][0]
+                json_data = {"user_type": "student", "user_id": student_id}
+                return JsonResponse(json_data, status=status.HTTP_200_OK)
+    except IndexError:
+        try:
+            serializer = LoginSerializer(data=request.data)
+            if serializer.is_valid():
+                with connection.cursor() as cursor:
+                    cursor.execute(f'SELECT advisor_id FROM advisor WHERE first_name=\"{serializer.validated_data["first_name"]}\" AND last_name=\"{serializer.validated_data["last_name"]}\" AND password=\"{serializer.validated_data["password"]}\" LIMIT 1')
+                    advisor_id = cursor.fetchall()[0][0]
+                    json_data = {"user_type": "advisor", "user_id": advisor_id}
+                    return JsonResponse(json_data, status=status.HTTP_200_OK)
+        except IndexError:
+            pass
+    try:
+        serializer = LoginSerializer(data=request.data)
+        if serializer.is_valid():
+            with connection.cursor() as cursor:
+                cursor.execute(f'SELECT parent_id FROM parent WHERE first_name=\"{serializer.validated_data["first_name"]}\" AND last_name=\"{serializer.validated_data["last_name"]}\" AND password=\"{serializer.validated_data["password"]}\" LIMIT 1')
+                parent_id = cursor.fetchall()[0][0]
+                json_data = {"user_type": "parent", "user_id": parent_id}
+                return JsonResponse(json_data, status=status.HTTP_200_OK)
+    except IndexError:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    return Response(status=status.HTTP_404_NOT_FOUND)

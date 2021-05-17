@@ -33,10 +33,8 @@ const ParentStudent = ({ student, actList }) => {
         <View style={styles.container}>
             <View style={styles.studName}>
                 <Image
-                    style={styles.photo}
-                    source={{uri: "https://www.sciencenewsforstudents.org/wp-content/uploads/2019/12/1030_two-students-looking-at-tablet-1028x579.jpg"}}
-                />
-                <Text style={{padding: 10, fontSize: 40}}>{student.first_name + " " + student.last_name}</Text>
+                style = {styles.photo}
+                source = {"https://whalewatchr-pics.s3.us-east-2.amazonaws.com/" + student.first_name + " " + student.last_name + ".jpg"}/>
             </View>
             <View style={styles.weekContainer}>
                 <ActivityWeekBar />
