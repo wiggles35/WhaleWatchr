@@ -31,7 +31,7 @@ const ParentStudent = ({ student, actList }) => {
 
     return (
         <View style={styles.container}>
-            <View style={styles.studName}>
+            <View style={styles.infoWrapper}>
                 <Image
                 style = {styles.photo}
                 source = {"https://whalewatchr-pics.s3.us-east-2.amazonaws.com/" + student.first_name + " " + student.last_name + ".jpg"}/>
@@ -90,6 +90,11 @@ const styles = StyleSheet.create({
     innerActivityContainer: {
         width: "50%",
         height: "50%",
+    },
+    infoWrapper: {
+        flex:1,
+        justifyContent: "ceenter",
+        alignItems: "center",
     },
     photo: {
         width: 80,
