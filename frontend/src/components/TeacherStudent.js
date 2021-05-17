@@ -21,9 +21,11 @@ const TeacherStudent = ({ studentName }) => {
     return (
         <View style={styles.container}>
             <View style={styles.infoWrapper}>
-                <Image 
+                <Image //CHANGE
                     style = {styles.photo}
                     source = "https://www.sciencenewsforstudents.org/wp-content/uploads/2019/12/1030_two-students-looking-at-tablet-1028x579.jpg"/>
+            </View>
+            <View style={styles.infoWrapper}>
                 <Text style={styles.infoText}>{studentName}</Text>
             </View>
             <View style={styles.infoWrapper}>

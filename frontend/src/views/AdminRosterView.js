@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, TextInput, StyleSheet, ActivityIndicator, Dimensions } from 'react-native'
+import { Text, View, TextInput, StyleSheet, ActivityIndicator, Dimensions, Image } from 'react-native'
 import { radius, colors } from '../constants/whaleStyle';
 import { getAllStudents } from '../controllers/adminController';
 import AdminRosterPanel from '../components/adminRosterPanel';

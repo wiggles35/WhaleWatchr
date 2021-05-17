@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, TextInput, StyleSheet, ActivityIndicator } from 'react-native';
+import { Text, View, TextInput, StyleSheet, ActivityIndicator, Image } from 'react-native';
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import TableStudent from '../components/TableStudent';
 import { radius, colors } from '../constants/whaleStyle';
