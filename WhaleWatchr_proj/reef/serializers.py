@@ -34,3 +34,8 @@ class ActivityDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = ActivityDetail
         fields = '__all__'
+
+class LoginSerializer(serializers.Serializer):
+    first_name = serializers.CharField(required=True)
+    last_name = serializers.CharField(required=True)
+    password = serializers.CharField(required=True)
