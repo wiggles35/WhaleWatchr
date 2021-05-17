@@ -246,26 +246,30 @@ def login(request):
     try:
         serializer = LoginSerializer(data=request.data)
         if serializer.is_valid():
-            student = Student.objects.get(first_name=serializer.validated_data['first_name'], last_name=serializer.validated_data['last_name'], password=serializer.validated_data['password'])
-            json_data = {"user_type": "student", "user_id": student.student_id}
-            return JsonResponse(json_data, status=status.HTTP_200_OK)
-    except Student.DoesNotExist:
+            with connection.cursor() as cursor:
+                cursor.execute(f'SELECT student_id FROM student WHERE student.first_name=\"{serializer.validated_data["first_name"]}\" AND last_name=\"{serializer.validated_data["last_name"]}\" AND password=\"{serializer.validated_data["password"]}\" LIMIT 1')
+                student_id = cursor.fetchall()[0][0]
+                json_data = {"user_type": "student", "user_id": student_id}
+                return JsonResponse(json_data, status=status.HTTP_200_OK)
+    except IndexError:
         try:
             serializer = LoginSerializer(data=request.data)
             if serializer.is_valid():
-                first, last = serializer.validated_data['first_and_last'].split("_")
-                advisor = Advisor.objects.get(first_name=serializer.validated_data['first_name'], last_name=serializer.validated_data['last_name'], password=serializer.validated_data['password'])
-                json_data = {"user_type": "advisor", "user_id": advisor.advisor_id}
-                return JsonResponse(json_data, status=status.HTTP_200_OK)
-        except Advisor.DoesNotExist:
+                with connection.cursor() as cursor:
+                    cursor.execute(f'SELECT advisor_id FROM advisor WHERE first_name=\"{serializer.validated_data["first_name"]}\" AND last_name=\"{serializer.validated_data["last_name"]}\" AND password=\"{serializer.validated_data["password"]}\" LIMIT 1')
+                    advisor_id = cursor.fetchall()[0][0]
+                    json_data = {"user_type": "advisor", "user_id": advisor_id}
+                    return JsonResponse(json_data, status=status.HTTP_200_OK)
+        except IndexError:
             pass
     try:
         serializer = LoginSerializer(data=request.data)
         if serializer.is_valid():
-            first, last = serializer.validated_data['first_and_last'].split("_")
-            parent = Parent.objects.get(first_name=serializer.validated_data['first_name'], last_name=serializer.validated_data['last_name'], password=serializer.validated_data['password'])
-            json_data = {"user_type": "parent", "user_id": parent.parent_id}
-            return JsonResponse(json_data, status=status.HTTP_200_OK)
-    except Parent.DoesNotExist:
+            with connection.cursor() as cursor:
+                cursor.execute(f'SELECT parent_id FROM parent WHERE first_name=\"{serializer.validated_data["first_name"]}\" AND last_name=\"{serializer.validated_data["last_name"]}\" AND password=\"{serializer.validated_data["password"]}\" LIMIT 1')
+                parent_id = cursor.fetchall()[0][0]
+                json_data = {"user_type": "parent", "user_id": parent_id}
+                return JsonResponse(json_data, status=status.HTTP_200_OK)
+    except IndexError:
         return Response(status=status.HTTP_404_NOT_FOUND)
     return Response(status=status.HTTP_404_NOT_FOUND)
