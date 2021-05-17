@@ -246,9 +246,7 @@ def login(request):
     try:
         serializer = LoginSerializer(data=request.data)
         if serializer.is_valid():
-            print('here')
-            first, last = serializer.validated_data['first_and_last'].split("_")
-            student = Student.objects.get(first_name=first, last_name=last, password=serializer.validated_data['password'])
+            student = Student.objects.get(first_name=serializer.validated_data['first_name'], last_name=serializer.validated_data['last_name'], password=serializer.validated_data['password'])
             json_data = {"user_type": "student", "user_id": student.student_id}
             return JsonResponse(json_data, status=status.HTTP_200_OK)
     except Student.DoesNotExist:
@@ -256,7 +254,7 @@ def login(request):
             serializer = LoginSerializer(data=request.data)
             if serializer.is_valid():
                 first, last = serializer.validated_data['first_and_last'].split("_")
-                advisor = Advisor.objects.get(first_name=first, last_name=last, password=serializer.validated_data['password'])
+                advisor = Advisor.objects.get(first_name=serializer.validated_data['first_name'], last_name=serializer.validated_data['last_name'], password=serializer.validated_data['password'])
                 json_data = {"user_type": "advisor", "user_id": advisor.advisor_id}
                 return JsonResponse(json_data, status=status.HTTP_200_OK)
         except Advisor.DoesNotExist:
@@ -265,7 +263,7 @@ def login(request):
         serializer = LoginSerializer(data=request.data)
         if serializer.is_valid():
             first, last = serializer.validated_data['first_and_last'].split("_")
-            parent = Parent.objects.get(first_name=first, last_name=last, password=serializer.validated_data['password'])
+            parent = Parent.objects.get(first_name=serializer.validated_data['first_name'], last_name=serializer.validated_data['last_name'], password=serializer.validated_data['password'])
             json_data = {"user_type": "parent", "user_id": parent.parent_id}
             return JsonResponse(json_data, status=status.HTTP_200_OK)
     except Parent.DoesNotExist:
