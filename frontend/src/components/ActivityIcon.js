@@ -22,7 +22,9 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        flex: 1
+        flex: 1,
+        display: 'flex',
+        textAlign: "center",
     },
     innerText: { 
         padding: 2,

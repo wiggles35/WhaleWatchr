@@ -98,14 +98,14 @@ export const deleteUpdateRequest = (actId) => {
 };
 
 export const activities = {
-    1: 'Walk',
-    2: 'Parent Pickup',
-    3: 'Bus 24',
-    4: 'Bus 27',
-    5: 'Bus 22',
+    1: 'Bus 24',
+    2: 'Walk',
+    3: 'Parent Pickup',
+    4: 'Bus 44',
+    5: 'Bus 32',
     6: 'Bus 35',
-    7: 'Bus 32',
-    8: 'Bus 44',
-    9: 'Bus 41',
-    10: 'Bus 21'
+    7: 'Bus 41',
+    8: 'Bus 27',
+    9: 'Bus 40',
+    10: 'Bus 33'
 };

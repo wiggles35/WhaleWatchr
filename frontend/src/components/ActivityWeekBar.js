@@ -2,42 +2,43 @@ import React from 'react';
 import { Text, View, TextInput, StyleSheet } from 'react-native'
 import ActivityIcon from './ActivityIcon'
 
-const ActivityWeekBar = () => {
-
+const ActivityWeekBar = ({ baseWeek, actList}) => {
+    console.log(actList);
+    console.log(baseWeek);
     return (
         <View style={styles.activityWeek}>
             <View style={styles.activityContainer}>
                 <View style={styles.innerActivityContainer}>
                     <ActivityIcon
-                        actType="Walk"
+                        actType={actList[baseWeek[0]-1].name}
                     />
                 </View>
             </View>
             <View style={styles.activityContainer}>
                 <View style={styles.innerActivityContainer}>
                     <ActivityIcon
-                        actType="Walk"
+                        actType={actList[baseWeek[1]-1].name}
                     />
                 </View>
             </View>
             <View style={styles.activityContainer}>
                 <View style={styles.innerActivityContainer}>
                     <ActivityIcon
-                        actType="Walk"
+                        actType={actList[baseWeek[2]-1].name}
                     />
                 </View>
             </View>
             <View style={styles.activityContainer}>
                 <View style={styles.innerActivityContainer}>
                     <ActivityIcon
-                        actType="Walk"
+                        actType={actList[baseWeek[3]-1].name}
                     />
                 </View>
             </View>
             <View style={styles.activityContainer}>
                 <View style={styles.innerActivityContainer}>
                     <ActivityIcon
-                        actType="Walk"
+                        actType={actList[baseWeek[4]-1].name}
                     />
                 </View>
             </View>
@@ -64,7 +65,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     innerActivityContainer: {
-        width: "50%",
+        width: "60%",
         height: "50%",
     }
 });

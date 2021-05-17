@@ -6,9 +6,10 @@ import { downloadImage } from "../commons/services/AWS.js";
 
 
 const ParentView = ({ route, navigation }) => {
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
     const [studentsObj, setStudentsObj] = useState([]);
     const [activitiesList, setActivitiesList] = useState([]);
+    const [loadedActivities, setLoadedActivities] = useState(false);
 
     const { parentId } = route.params;
     console.log(parentId);
@@ -21,7 +22,7 @@ const ParentView = ({ route, navigation }) => {
             .then((response) => response.json())
             .then((json) => {
                 setStudentsObj(json.students);
-                setIsLoading(false);
+                setIsLoading(true);
             })
             .catch((error) => alert(error))
 
@@ -30,15 +31,14 @@ const ParentView = ({ route, navigation }) => {
             .then((json) => {
                 console.log(json);
                 setActivitiesList(json);
+                setLoadedActivities(true);
             })
             .catch(error => alert(error))
     }, []);
 
     return (
         <View style={styles.container}>
-            { isLoading ? (
-                        <ActivityIndicator styles={{justifyContent: "center", alignItems: "center", flex:1}} />
-                    ) : (
+            { isLoading && loadedActivities ? (
                         <View style={{flex:1}}>
                             <ScrollView style={{flex:1}} contentContainerStyle={{flexGrow: 1, flex: 1}}>
                                 {studentsObj.map(item => {
@@ -52,6 +52,8 @@ const ParentView = ({ route, navigation }) => {
                                 })}
                             </ScrollView>
                         </View>
+                    ) : (
+                        <ActivityIndicator styles={{justifyContent: "center", alignItems: "center", flex:1}} />
                     )}
         </View>
     );

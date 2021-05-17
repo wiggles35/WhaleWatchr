@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Text, View, Image, TextInput, StyleSheet } from 'react-native'
+import { Text, Button, View, Image, TextInput, StyleSheet, Platform } from 'react-native'
 import ActivityIcon from '../components/ActivityIcon'
 import ActivityWeekBar from './ActivityWeekBar'
 import moment from 'moment';
 import FormInput from '../components/FormInput'
+import axios from 'axios';
 
 const loadImage = function(imageLink, id, fact){
     downloadImage(imageLink).then( function(data){
@@ -20,40 +21,105 @@ const loadImage = function(imageLink, id, fact){
  } 
 
 const ParentStudent = ({ student, actList }) => {
-    const [permanent, setPermanent] = useState(false);
+    const [permanent, setPermanent] = useState('');
+    const [date, setDate] = useState('');
+    const [actStr, setActStr] = useState('');
 
-    const [date, setDate] = useState(new Date());
-    const [actStr, setActivity] = useState([]);
+    const makeUpdateReq = () => {
+        //make post request to updateRequest
+        const updateReqURL = "http://db.cse.nd.edu:5004/api/updateRequest/";
 
-    const onChange = (event, selectedDate) => {
-        const currentDate = selectedDate || date;
-        setDate(currentDate);
+        var actId = -1;
+
+        for(var i = 0; i < actList.length; i++){
+            if(actStr === actList[i].name){
+                actId = actList[i].id;
+            };
+        };
+
+        console.log(student);
+        console.log(actList);
+
+        if(actId != -1){
+            const sendObj = {
+                "student": student.student_id,
+                "permanent": permanent === "yes" ? true : false,
+                "start_date": date,
+                "activityDetail": actId
+            };
+
+            console.log(sendObj)
+
+            axios.post(updateReqURL, sendObj, {headers:{'Content-Type': 'application/json'}})
+                .then((response) => {
+                    console.log(response);
+                })
+                .catch((error) => {
+                    alert(JSON.stringify(error.response.data))
+                });
+
+                setPermanent('');
+                setDate('');
+                setActStr('');
+        }
     };
 
     return (
         <View style={styles.container}>
-            <View style={styles.infoWrapper}>
-                <Image
-                style = {styles.photo}
-                source = {{uri: "https://whalewatchr-pics.s3.us-east-2.amazonaws.com/" + student.first_name + " " + student.last_name + ".jpg"}}/>
+            <View style={styles.studName}>
+                <View style={styles.infoWrapper}>
+                    <Image
+                    style = {styles.photo}
+                    source = {{uri: "https://whalewatchr-pics.s3.us-east-2.amazonaws.com/" + student.first_name + " " + student.last_name + ".jpg"}}/>
+                </View>
+                <View style={styles.infoWrapper}>
+                    <Text style={{fontSize: 40}}>{student.first_name + ' ' + student.last_name}</Text>
+                </View>
             </View>
             <View style={styles.weekContainer}>
-                <ActivityWeekBar />
-            </View>
-            <View style={styles.inputWidth}>
-                <FormInput 
-                    data={date}
-                    setData={setDate} 
-                    title="date"
-                    placeholder="yyyy/mm/dd"
+                <ActivityWeekBar 
+                    baseWeek={student.activity_base}
+                    actList={actList}
                 />
-                <FormInput 
-                    data={actStr}
-                    setData={setActivity}
-                    title="Activity Title"
-                    placeholder="Activity Title"
-             />
-             </View>
+            </View>
+            <View style={styles.formContainer}>
+                <View style={styles.actForm}>
+                    <View style={styles.inputWidth}>
+                        <FormInput 
+                            data={date}
+                            setData={setDate} 
+                            title="Date"
+                            placeholder="YYYY-MM-DD"
+                            fontSize={30}
+                        />
+                    </View>
+                    <View style={styles.inputWidth}>
+                        <FormInput 
+                            data={actStr}
+                            setData={setActStr}
+                            title="Activity Title"
+                            placeholder='"Bus xx" or "Walk" or "Parent Pickup"'
+                            fontSize={30}
+                        />
+                    </View>
+                    <View style={styles.inputWidth}>
+                        <FormInput 
+                            data={permanent}
+                            setData={setPermanent}
+                            title="Permanent?"
+                            placeholder='"yes" or "no"'
+                            fontSize={30}
+                        />
+                    </View>
+                </View>
+                <View>
+                    <Button 
+                        title="Request Change"
+                        onPress={makeUpdateReq}
+                        style={styles.button}
+                    />
+                </View>
+            </View>
         </View>
     );
 }
@@ -65,6 +131,12 @@ const styles = StyleSheet.create({
         flexDirection: "column",
 
     },
+    formContainer: {
+        flex: 4,
+        flexDirection: "column",
+        alignContent: "center",
+        alignItems: "center"
+    },
     weekContainer: {
         flex: 1,
         padding: 10,
@@ -72,16 +144,16 @@ const styles = StyleSheet.create({
     actForm: {
         flex: 4,
         padding: 10,
-        flexDirection: "row",
+        flexDirection: Platform.OS === 'ios' ? "column" : "row",
         alignItems: "center",
         justifyContent: "space-between",
+        //backgroundColor: "red",
     },
     studName: {
         alignItems: "center",
         justifyContent: "center",
         flexDirection: "row",
         flex: 1,
-
     },
     activityWeek: {
         flex: 1,
@@ -93,7 +165,7 @@ const styles = StyleSheet.create({
         flex:1, 
         justifyContent: "center", 
         alignItems: "center",
-        backgroundColor: "white",
+        //backgroundColor: "red",
     },
     innerActivityContainer: {
         width: "50%",
@@ -101,7 +173,7 @@ const styles = StyleSheet.create({
     },
     infoWrapper: {
         flex:1,
-        justifyContent: "ceenter",
+        justifyContent: "center",
         alignItems: "center",
     },
     photo: {
@@ -110,7 +182,14 @@ const styles = StyleSheet.create({
     },
     inputWidth: {
         flex: 1,
-        width: "60%",
+        //width: "60%",
+        //backgroundColor: "blue",
+        margin: "3%",
+    },
+    button: {
+        padding: 10,
+        margin: 10,
+        flex: 1,
     }
 });
 
